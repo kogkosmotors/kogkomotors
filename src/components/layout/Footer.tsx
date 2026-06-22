@@ -37,7 +37,6 @@ export function Footer() {
             {[
               { to: "/inventory", l: "Inventory" },
               { to: "/brands", l: "Brands" },
-              { to: "/finance", l: "Finance" },
               { to: "/trade-in", l: "Trade-In" },
               { to: "/faq", l: "FAQ" },
               { to: "/about", l: "About Us" },
