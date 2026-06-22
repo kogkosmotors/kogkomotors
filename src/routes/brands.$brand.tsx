@@ -50,7 +50,7 @@ function BrandPage() {
       <p className="mt-2 text-muted-foreground">{cars.length} {cars.length === 1 ? "vehicle" : "vehicles"} available</p>
 
       <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {cars.map((v) => <VehicleCard key={v.id} vehicle={v} />)}
+        {cars.map((v: typeof cars[number]) => <VehicleCard key={v.id} vehicle={v} />)}
       </div>
     </div>
   );
