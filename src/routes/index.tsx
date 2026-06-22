@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, ShieldCheck, Award, Headphones, Banknote, Repeat, Star, Quote } from "lucide-react";
+import { ArrowRight, ShieldCheck, Award, Headphones, Banknote, Star, Quote } from "lucide-react";
 import heroImg from "@/assets/cars/hero.jpg.asset.json";
 import { VehicleCard } from "@/components/VehicleCard";
 import { Reveal, SectionHeading } from "@/components/ui/reveal";
@@ -30,14 +30,8 @@ const whyUs = [
   { icon: Headphones, title: "Concierge Service", text: "A dedicated specialist from first viewing to delivery." },
 ];
 
-const testimonials = [
-  { name: "Andreas P.", car: "Porsche 911 Turbo S", text: "An impeccable experience from start to finish. The most refined dealership in Cyprus." },
-  { name: "Maria K.", car: "Range Rover Autobiography", text: "Effortless, honest and genuinely luxurious. They handled everything beautifully." },
-  { name: "Dimitris L.", car: "Bentley Continental GT", text: "World-class service. The trade-in valuation was the fairest I've ever received." },
-];
-
 function Home() {
-  const { config, vehicles, text } = useSiteData();
+  const { config, vehicles, text, stats, reviews } = useSiteData();
   const featured = vehicles.filter((v) => v.featured);
   const latest = [...vehicles].sort((a, b) => b.year - a.year).slice(0, 3);
   const brands = Array.from(new Set(vehicles.map((v) => v.make).filter(Boolean))).sort();
