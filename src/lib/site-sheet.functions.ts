@@ -29,38 +29,51 @@ function rowsToMap(values?: string[][]): Record<string, string> {
   return map;
 }
 
+/** Plain async helper (not a server fn) — fetches & caches the raw sheet. */
+async function fetchRawSheet(): Promise<RawSheetData> {
+  if (cache && Date.now() - cache.at < TTL_MS) return cache.data;
+
+  const apiKey = process.env.GOOGLE_SHEETS_API_KEY;
+  const lovableKey = process.env.LOVABLE_API_KEY;
+  if (!apiKey || !lovableKey) return cache?.data ?? EMPTY;
+
+  try {
+    const url =
+      `${GATEWAY}/spreadsheets/${SPREADSHEET_ID}/values:batchGet` +
+      `?ranges=Settings!A2:C&ranges=Sections!A2:C&ranges=Vehicles!A1:Z`;
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${lovableKey}`,
+        "X-Connection-Api-Key": apiKey,
+      },
+    });
+    if (!res.ok) return cache?.data ?? EMPTY;
+    const json = (await res.json()) as {
+      valueRanges?: { values?: string[][] }[];
+    };
+    const [settings, sections, vehicles] = json.valueRanges ?? [];
+    const data: RawSheetData = {
+      settings: rowsToMap(settings?.values),
+      sections: rowsToMap(sections?.values),
+      vehicleRows: vehicles?.values ?? [],
+    };
+    cache = { at: Date.now(), data };
+    return data;
+  } catch {
+    return cache?.data ?? EMPTY;
+  }
+}
+
 export const getSiteSheet = createServerFn({ method: "GET" }).handler(
-  async (): Promise<RawSheetData> => {
-    if (cache && Date.now() - cache.at < TTL_MS) return cache.data;
-
-    const apiKey = process.env.GOOGLE_SHEETS_API_KEY;
-    const lovableKey = process.env.LOVABLE_API_KEY;
-    if (!apiKey || !lovableKey) return cache?.data ?? EMPTY;
-
-    try {
-      const url =
-        `${GATEWAY}/spreadsheets/${SPREADSHEET_ID}/values:batchGet` +
-        `?ranges=Settings!A2:C&ranges=Sections!A2:C&ranges=Vehicles!A1:Z`;
-      const res = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${lovableKey}`,
-          "X-Connection-Api-Key": apiKey,
-        },
-      });
-      if (!res.ok) return cache?.data ?? EMPTY;
-      const json = (await res.json()) as {
-        valueRanges?: { values?: string[][] }[];
-      };
-      const [settings, sections, vehicles] = json.valueRanges ?? [];
-      const data: RawSheetData = {
-        settings: rowsToMap(settings?.values),
-        sections: rowsToMap(sections?.values),
-        vehicleRows: vehicles?.values ?? [],
-      };
-      cache = { at: Date.now(), data };
-      return data;
-    } catch {
-      return cache?.data ?? EMPTY;
-    }
-  },
+  async (): Promise<RawSheetData> => fetchRawSheet(),
 );
+
+/** Fetch a single vehicle (parsed) by id — used by the detail route loader (SSR-safe). */
+export const getVehicleData = createServerFn({ method: "GET" })
+  .inputValidator((id: string) => id)
+  .handler(async ({ data: id }) => {
+    const raw = await fetchRawSheet();
+    const { buildSiteData } = await import("@/lib/site-data");
+    const { vehicles } = buildSiteData(raw);
+    return vehicles.find((v) => v.id === id) ?? null;
+  });
