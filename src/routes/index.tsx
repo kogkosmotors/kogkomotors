@@ -51,13 +51,13 @@ function Home() {
 
         <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6">
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="text-xs font-semibold uppercase tracking-[0.4em] text-primary">
-            {siteConfig.tagline}
+            {text("hero_eyebrow", config.tagline)}
           </motion.p>
           <motion.h1 initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="mt-5 max-w-3xl font-display text-5xl leading-[1.05] sm:text-6xl md:text-7xl">
             Drive the <span className="text-gold-gradient">Extraordinary</span>
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="mt-6 max-w-xl text-lg text-secondary-foreground/85">
-            Cyprus's premier destination for luxury and performance automobiles. A curated collection, an uncompromising standard.
+            {text("hero_subtext", "Cyprus's premier destination for luxury and performance automobiles. A curated collection, an uncompromising standard.")}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }} className="mt-9 flex flex-wrap gap-4">
             <Button asChild variant="luxury" size="xl">
