@@ -3,20 +3,20 @@ export const siteConfig = {
   tagline: "The Art of Automotive Excellence",
   description:
     "Kogko's Motors — Cyprus's premier luxury vehicle dealership. Discover an exclusive curated collection of premium and performance automobiles, bespoke finance and trade-in services.",
-  phone: "+357 99 000 000",
-  phoneHref: "tel:+35799000000",
-  whatsapp: "35799000000",
+  phone: "+357 99 592202",
+  phoneHref: "tel:+35799592202",
+  whatsapp: "35799592202",
   email: "sales@kogkosmotors.com",
-  address: "12 Makarios Avenue, Nicosia 1065, Cyprus",
-  mapQuery: "Nicosia, Cyprus",
+  address: "Strovolos, Nicosia, Cyprus",
+  mapQuery: "Strovolos, Nicosia, Cyprus",
   hours: [
     { day: "Monday – Friday", time: "09:00 – 19:00" },
     { day: "Saturday", time: "10:00 – 17:00" },
     { day: "Sunday", time: "By appointment" },
   ],
   socials: {
-    instagram: "https://instagram.com",
-    facebook: "https://facebook.com",
+    instagram: "https://www.instagram.com/kogkos_motors",
+    facebook: "https://www.facebook.com/people/Kogkos-Motors/61584137496512/",
     youtube: "https://youtube.com",
   },
 };
