@@ -13,12 +13,6 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const [{ fetchRawSheet }, { buildSiteData }] = await Promise.all([
-          import("@/lib/site-sheet.server"),
-          import("@/lib/site-data"),
-        ]);
-        const { vehicles } = buildSiteData(await fetchRawSheet());
-        const brands = Array.from(new Set(vehicles.map((v) => v.make).filter(Boolean))).sort();
         const staticPaths: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
           { path: "/inventory", changefreq: "daily", priority: "0.9" },
@@ -31,20 +25,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/terms", changefreq: "yearly", priority: "0.3" },
           { path: "/cookies", changefreq: "yearly", priority: "0.3" },
         ];
-
-        const brandPaths: SitemapEntry[] = brands.map((b) => ({
-          path: `/brands/${b.toLowerCase().replace(/\s+/g, "-")}`,
-          changefreq: "weekly",
-          priority: "0.6",
-        }));
-
-        const vehiclePaths: SitemapEntry[] = vehicles.map((v) => ({
-          path: `/vehicle/${v.id}`,
-          changefreq: "weekly",
-          priority: "0.8",
-        }));
-
-        const entries = [...staticPaths, ...brandPaths, ...vehiclePaths];
+        const entries = staticPaths;
 
         const urls = entries.map((e) =>
           [
