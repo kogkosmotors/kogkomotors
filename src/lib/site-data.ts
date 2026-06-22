@@ -216,6 +216,8 @@ export function buildSiteData(raw?: RawSheetData | null): SiteData {
     config,
     sections,
     vehicles: parseVehicles(raw?.vehicleRows ?? []),
+    stats: buildStats(settings),
+    reviews: buildReviews(raw?.reviewRows ?? []),
   };
 }
 
