@@ -17,11 +17,9 @@ function rowsToMap(values?: string[][]): Record<string, string> {
   return map;
 }
 
-async function fetchRawSheet(): Promise<RawSheetData> {
+async function fetchRawSheet(apiKey: string | undefined, lovableKey: string | undefined): Promise<RawSheetData> {
   if (cache && Date.now() - cache.at < TTL_MS) return cache.data;
 
-  const apiKey = process.env.GOOGLE_SHEETS_API_KEY;
-  const lovableKey = process.env.LOVABLE_API_KEY;
   if (!apiKey || !lovableKey) return cache?.data ?? EMPTY;
 
   try {
@@ -53,14 +51,15 @@ async function fetchRawSheet(): Promise<RawSheetData> {
 }
 
 export const getSiteSheet = createServerFn({ method: "GET" }).handler(
-  async (): Promise<RawSheetData> => fetchRawSheet(),
+  async (): Promise<RawSheetData> =>
+    fetchRawSheet(process.env.GOOGLE_SHEETS_API_KEY, process.env.LOVABLE_API_KEY),
 );
 
 /** Fetch a single vehicle (parsed) by id — used by the detail route loader (SSR-safe). */
 export const getVehicleData = createServerFn({ method: "GET" })
   .inputValidator((id: string) => id)
   .handler(async ({ data: id }) => {
-    const raw = await fetchRawSheet();
+    const raw = await fetchRawSheet(process.env.GOOGLE_SHEETS_API_KEY, process.env.LOVABLE_API_KEY);
     const { buildSiteData } = await import("@/lib/site-data");
     const { vehicles } = buildSiteData(raw);
     return vehicles.find((v) => v.id === id) ?? null;
@@ -69,7 +68,7 @@ export const getVehicleData = createServerFn({ method: "GET" })
 export const getBrandData = createServerFn({ method: "GET" })
   .inputValidator((brandSlug: string) => brandSlug)
   .handler(async ({ data: brandSlug }) => {
-    const raw = await fetchRawSheet();
+    const raw = await fetchRawSheet(process.env.GOOGLE_SHEETS_API_KEY, process.env.LOVABLE_API_KEY);
     const { buildSiteData } = await import("@/lib/site-data");
     const { vehicles } = buildSiteData(raw);
     const slug = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
