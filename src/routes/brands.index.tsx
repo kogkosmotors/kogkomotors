@@ -16,6 +16,8 @@ export const Route = createFileRoute("/brands/")({
 });
 
 function Brands() {
+  const { vehicles } = useSiteData();
+  const brands = Array.from(new Set(vehicles.map((v) => v.make).filter(Boolean))).sort();
   return (
     <>
       <section className="border-b border-border bg-[#0a0a0a] py-16 sm:py-20">
