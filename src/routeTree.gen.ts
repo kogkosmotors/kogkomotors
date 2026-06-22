@@ -18,6 +18,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BrandsIndexRouteImport } from './routes/brands.index'
 import { Route as VehicleIdRouteImport } from './routes/vehicle.$id'
+import { Route as BrandsBrandRouteImport } from './routes/brands.$brand'
 
 const TradeInRoute = TradeInRouteImport.update({
   id: '/trade-in',
@@ -64,6 +65,11 @@ const VehicleIdRoute = VehicleIdRouteImport.update({
   path: '/vehicle/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BrandsBrandRoute = BrandsBrandRouteImport.update({
+  id: '/brands/$brand',
+  path: '/brands/$brand',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -73,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/finance': typeof FinanceRoute
   '/inventory': typeof InventoryRoute
   '/trade-in': typeof TradeInRoute
+  '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
   '/brands/': typeof BrandsIndexRoute
 }
@@ -84,6 +91,7 @@ export interface FileRoutesByTo {
   '/finance': typeof FinanceRoute
   '/inventory': typeof InventoryRoute
   '/trade-in': typeof TradeInRoute
+  '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
   '/brands': typeof BrandsIndexRoute
 }
@@ -96,6 +104,7 @@ export interface FileRoutesById {
   '/finance': typeof FinanceRoute
   '/inventory': typeof InventoryRoute
   '/trade-in': typeof TradeInRoute
+  '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
   '/brands/': typeof BrandsIndexRoute
 }
@@ -109,6 +118,7 @@ export interface FileRouteTypes {
     | '/finance'
     | '/inventory'
     | '/trade-in'
+    | '/brands/$brand'
     | '/vehicle/$id'
     | '/brands/'
   fileRoutesByTo: FileRoutesByTo
@@ -120,6 +130,7 @@ export interface FileRouteTypes {
     | '/finance'
     | '/inventory'
     | '/trade-in'
+    | '/brands/$brand'
     | '/vehicle/$id'
     | '/brands'
   id:
@@ -131,6 +142,7 @@ export interface FileRouteTypes {
     | '/finance'
     | '/inventory'
     | '/trade-in'
+    | '/brands/$brand'
     | '/vehicle/$id'
     | '/brands/'
   fileRoutesById: FileRoutesById
@@ -143,6 +155,7 @@ export interface RootRouteChildren {
   FinanceRoute: typeof FinanceRoute
   InventoryRoute: typeof InventoryRoute
   TradeInRoute: typeof TradeInRoute
+  BrandsBrandRoute: typeof BrandsBrandRoute
   VehicleIdRoute: typeof VehicleIdRoute
   BrandsIndexRoute: typeof BrandsIndexRoute
 }
@@ -212,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VehicleIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/brands/$brand': {
+      id: '/brands/$brand'
+      path: '/brands/$brand'
+      fullPath: '/brands/$brand'
+      preLoaderRoute: typeof BrandsBrandRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -223,6 +243,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinanceRoute: FinanceRoute,
   InventoryRoute: InventoryRoute,
   TradeInRoute: TradeInRoute,
+  BrandsBrandRoute: BrandsBrandRoute,
   VehicleIdRoute: VehicleIdRoute,
   BrandsIndexRoute: BrandsIndexRoute,
 }
