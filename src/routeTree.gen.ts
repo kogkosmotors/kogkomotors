@@ -16,6 +16,7 @@ import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BrandsIndexRouteImport } from './routes/brands.index'
 import { Route as VehicleIdRouteImport } from './routes/vehicle.$id'
 
 const TradeInRoute = TradeInRouteImport.update({
@@ -53,6 +54,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BrandsIndexRoute = BrandsIndexRouteImport.update({
+  id: '/brands/',
+  path: '/brands/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VehicleIdRoute = VehicleIdRouteImport.update({
   id: '/vehicle/$id',
   path: '/vehicle/$id',
@@ -68,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/inventory': typeof InventoryRoute
   '/trade-in': typeof TradeInRoute
   '/vehicle/$id': typeof VehicleIdRoute
+  '/brands/': typeof BrandsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByTo {
   '/inventory': typeof InventoryRoute
   '/trade-in': typeof TradeInRoute
   '/vehicle/$id': typeof VehicleIdRoute
+  '/brands': typeof BrandsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +97,7 @@ export interface FileRoutesById {
   '/inventory': typeof InventoryRoute
   '/trade-in': typeof TradeInRoute
   '/vehicle/$id': typeof VehicleIdRoute
+  '/brands/': typeof BrandsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +110,7 @@ export interface FileRouteTypes {
     | '/inventory'
     | '/trade-in'
     | '/vehicle/$id'
+    | '/brands/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +121,7 @@ export interface FileRouteTypes {
     | '/inventory'
     | '/trade-in'
     | '/vehicle/$id'
+    | '/brands'
   id:
     | '__root__'
     | '/'
@@ -121,6 +132,7 @@ export interface FileRouteTypes {
     | '/inventory'
     | '/trade-in'
     | '/vehicle/$id'
+    | '/brands/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +144,7 @@ export interface RootRouteChildren {
   InventoryRoute: typeof InventoryRoute
   TradeInRoute: typeof TradeInRoute
   VehicleIdRoute: typeof VehicleIdRoute
+  BrandsIndexRoute: typeof BrandsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -185,6 +198,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/brands/': {
+      id: '/brands/'
+      path: '/brands'
+      fullPath: '/brands/'
+      preLoaderRoute: typeof BrandsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/vehicle/$id': {
       id: '/vehicle/$id'
       path: '/vehicle/$id'
@@ -204,6 +224,7 @@ const rootRouteChildren: RootRouteChildren = {
   InventoryRoute: InventoryRoute,
   TradeInRoute: TradeInRoute,
   VehicleIdRoute: VehicleIdRoute,
+  BrandsIndexRoute: BrandsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
