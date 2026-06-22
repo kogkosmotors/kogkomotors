@@ -35,13 +35,11 @@ export const Route = createFileRoute("/faq")({
 const faqs = [
   { cat: "Buying", q: "How do I reserve a vehicle?", a: "You can reserve any vehicle by placing a refundable deposit through our team. Simply enquire on the vehicle page or contact us directly." },
   { cat: "Buying", q: "Can I view a car before purchasing?", a: "Absolutely. We encourage private viewings at our Nicosia showroom. Book an appointment and a specialist will guide you through every detail." },
-  { cat: "Financing", q: "Do you offer finance?", a: "Yes. We offer tailored finance packages through trusted lending partners, with competitive rates and flexible terms from 12 to 84 months." },
-  { cat: "Financing", q: "How fast is finance approval?", a: "Most applications receive an indicative decision within hours. Apply online via our Finance page to get started." },
   { cat: "Trade-In", q: "How is my trade-in valued?", a: "We base valuations on live market data, condition, mileage and history. Submit a request and we'll respond within 24 hours." },
   { cat: "Trade-In", q: "Can I part-exchange against any car?", a: "Yes, your trade-in value can be offset directly against any vehicle in our inventory." },
   { cat: "Warranty", q: "Do vehicles come with a warranty?", a: "Eligible vehicles include a comprehensive warranty. Extended warranty options are available — ask our team for details." },
   { cat: "Reservations", q: "Is my deposit refundable?", a: "Yes, reservation deposits are fully refundable should you decide not to proceed." },
-  { cat: "Payments", q: "What payment methods do you accept?", a: "We accept bank transfer, finance, and major payment methods. Our team will guide you through the secure process." },
+  { cat: "Payments", q: "What payment methods do you accept?", a: "We accept bank transfer and major payment methods. Our team will guide you through the secure process." },
   { cat: "Vehicle History", q: "Do you provide service history?", a: "Every vehicle is supplied with full service history and verified provenance for complete peace of mind." },
   { cat: "Delivery", q: "Do you deliver vehicles?", a: "Yes, we offer nationwide delivery across Cyprus and can arrange international shipping on request." },
 ];

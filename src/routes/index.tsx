@@ -64,9 +64,6 @@ function Home() {
               <Link to="/inventory">Browse Vehicles <ArrowRight className="h-4 w-4" /></Link>
             </Button>
             <Button asChild variant="outlineGold" size="xl">
-              <Link to="/finance">Apply for Finance</Link>
-            </Button>
-            <Button asChild variant="outlineGold" size="xl">
               <Link to="/trade-in">Trade In Vehicle</Link>
             </Button>
           </motion.div>
@@ -131,23 +128,18 @@ function Home() {
         </div>
       </section>
 
-      {/* FINANCE + TRADE-IN PROMO */}
+      {/* TRADE-IN PROMO */}
       <section className="section-pad border-t border-border bg-[#0a0a0a]">
-        <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-2">
-          {[
-            { icon: Banknote, eyebrow: "Finance", title: "Drive Now, Pay Your Way", text: "Flexible, competitive finance packages tailored to you. Get pre-approved in minutes.", to: "/finance" as const, cta: "Apply for Finance" },
-            { icon: Repeat, eyebrow: "Trade-In", title: "Your Car, Valued Fairly", text: "Receive a transparent, market-leading valuation and trade in with total confidence.", to: "/trade-in" as const, cta: "Value My Car" },
-          ].map((p) => (
-            <Reveal key={p.title}>
-              <div className="luxury-card flex h-full flex-col rounded-2xl p-8">
-                <p.icon className="h-9 w-9 text-primary" />
-                <p className="mt-5 text-xs font-semibold uppercase tracking-[0.3em] text-primary">{p.eyebrow}</p>
-                <h3 className="mt-2 font-display text-2xl sm:text-3xl">{p.title}</h3>
-                <p className="mt-3 flex-1 text-muted-foreground">{p.text}</p>
-                <Button asChild variant="luxury" className="mt-6 self-start"><Link to={p.to}>{p.cta}</Link></Button>
-              </div>
-            </Reveal>
-          ))}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <Reveal>
+            <div className="luxury-card flex h-full flex-col rounded-2xl p-8 max-w-2xl mx-auto">
+              <Repeat className="h-9 w-9 text-primary" />
+              <p className="mt-5 text-xs font-semibold uppercase tracking-[0.3em] text-primary">Trade-In</p>
+              <h3 className="mt-2 font-display text-2xl sm:text-3xl">Your Car, Valued Fairly</h3>
+              <p className="mt-3 flex-1 text-muted-foreground">Receive a transparent, market-leading valuation and trade in with total confidence.</p>
+              <Button asChild variant="luxury" className="mt-6 self-start"><Link to="/trade-in">Value My Car</Link></Button>
+            </div>
+          </Reveal>
         </div>
       </section>
 
