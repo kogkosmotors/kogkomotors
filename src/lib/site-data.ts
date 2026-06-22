@@ -12,10 +12,79 @@ export type { RawSheetData } from "@/lib/sheet-types";
 
 export type SiteConfigShape = typeof siteConfig;
 
+export interface StatItem {
+  value: string;
+  label: string;
+}
+
+export interface ReviewItem {
+  name: string;
+  car: string;
+  text: string;
+}
+
 export interface SiteData {
   config: SiteConfigShape;
   sections: Record<string, string>;
   vehicles: Vehicle[];
+  stats: StatItem[];
+  reviews: ReviewItem[];
+}
+
+/** Default stats — overridable per-slot from the Settings tab; blank value hides the stat. */
+const DEFAULT_STATS: StatItem[] = [
+  { value: "500+", label: "Vehicles Delivered" },
+  { value: "25+", label: "Premium Brands" },
+  { value: "15", label: "Years of Excellence" },
+  { value: "98%", label: "Client Satisfaction" },
+];
+
+const DEFAULT_REVIEWS: ReviewItem[] = [
+  { name: "Andreas P.", car: "Porsche 911 Turbo S", text: "An impeccable experience from start to finish. The most refined dealership in Cyprus." },
+  { name: "Maria K.", car: "Range Rover Autobiography", text: "Effortless, honest and genuinely luxurious. They handled everything beautifully." },
+  { name: "Dimitris L.", car: "Bentley Continental GT", text: "World-class service. The valuation was the fairest I've ever received." },
+];
+
+/** Build the stats list from the Settings tab. Slots use keys stat1_value/stat1_label … stat6_*. Blank value = hidden. */
+function buildStats(settings: Record<string, string>): StatItem[] {
+  const out: StatItem[] = [];
+  for (let i = 1; i <= 6; i++) {
+    const d = DEFAULT_STATS[i - 1];
+    const rawValue = settings[`stat${i}_value`];
+    const rawLabel = settings[`stat${i}_label`];
+    const value = (rawValue !== undefined ? rawValue : d?.value ?? "").trim();
+    const label = (rawLabel !== undefined ? rawLabel : d?.label ?? "").trim();
+    if (value) out.push({ value, label });
+  }
+  return out;
+}
+
+/** Build the reviews list from the Reviews tab (columns: name, car, review/text). Blank = removed. */
+function buildReviews(rows: string[][]): ReviewItem[] {
+  if (!rows || rows.length < 2) return DEFAULT_REVIEWS;
+  const header = rows[0].map((h) => h.toString().trim().toLowerCase());
+  const idx = (...names: string[]) => {
+    for (const n of names) {
+      const i = header.indexOf(n);
+      if (i >= 0) return i;
+    }
+    return -1;
+  };
+  const ni = idx("name");
+  const ci = idx("car", "vehicle");
+  const ti = idx("review", "text", "quote", "message");
+  const out: ReviewItem[] = [];
+  for (const row of rows.slice(1)) {
+    const name = (ni >= 0 ? row[ni] : "")?.toString().trim() ?? "";
+    const text = (ti >= 0 ? row[ti] : "")?.toString().trim() ?? "";
+    if (!name && !text) continue;
+    out.push({
+      name: name || "Anonymous",
+      car: (ci >= 0 ? row[ci] : "")?.toString().trim() ?? "",
+      text,
+    });
+  }
+  return out;
 }
 
 const truthy = (v?: string) => /^(true|yes|1|on)$/i.test((v ?? "").trim());
@@ -122,6 +191,7 @@ export function buildSiteData(raw?: RawSheetData | null): SiteData {
     settings[key] && settings[key].trim() ? settings[key] : fallback;
 
   const config: SiteConfigShape = {
+    sheetId: siteConfig.sheetId,
     name: s("site_name", siteConfig.name),
     tagline: s("tagline", siteConfig.tagline),
     description: s("description", siteConfig.description),
@@ -147,6 +217,8 @@ export function buildSiteData(raw?: RawSheetData | null): SiteData {
     config,
     sections,
     vehicles: parseVehicles(raw?.vehicleRows ?? []),
+    stats: buildStats(settings),
+    reviews: buildReviews(raw?.reviewRows ?? []),
   };
 }
 

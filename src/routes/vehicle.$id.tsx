@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Phone, Share2, ChevronLeft, Check, Gauge, Fuel, Settings2, Calendar, Cog, Zap, Palette, MapPin } from "lucide-react";
+import { Phone, Share2, ChevronLeft, Check, Gauge, Fuel, Settings2, Calendar, Cog, Zap, Palette, MapPin, CalendarCheck } from "lucide-react";
 import { formatPrice, formatMileage, getVehicle, type Vehicle } from "@/data/vehicles";
 import { useSiteData } from "@/hooks/use-site-data";
 import { VehicleCard } from "@/components/VehicleCard";
@@ -129,7 +129,7 @@ function VehicleDetail() {
             <Button asChild variant="outlineGold" size="lg">
               <a href={`https://wa.me/${config.whatsapp}?text=${encodeURIComponent(`Hi, I'm interested in the ${v.year} ${v.make} ${v.model}`)}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
             </Button>
-            <Button asChild variant="outlineGold" size="lg"><Link to="/trade-in">Trade-In</Link></Button>
+            <Button variant="luxury" size="lg" onClick={() => document.getElementById("enquire")?.scrollIntoView({ behavior: "smooth" })}><CalendarCheck className="h-4 w-4" /> Book a Test Drive</Button>
             <Button variant="outlineGold" size="lg" onClick={share}><Share2 className="h-4 w-4" /> Share</Button>
           </div>
 
@@ -169,14 +169,15 @@ function VehicleDetail() {
           </ul>
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-8" id="enquire">
           {flag("show_finance_calculator", true) && <FinanceCalculator price={v.price} />}
           <LeadForm
             type="vehicle-inquiry"
-            title="Enquire About This Vehicle"
+            title="Enquire / Book a Test Drive"
             subtitle={`${v.year} ${v.make} ${v.model}`}
+            messageLabel="Message (let us know your preferred test-drive date)"
             meta={{ vehicle: `${v.year} ${v.make} ${v.model}`, vin: v.vin }}
-            cta="Send Enquiry"
+            cta="Send Request"
           />
         </div>
       </div>

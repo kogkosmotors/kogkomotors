@@ -1,4 +1,10 @@
 export const siteConfig = {
+  /**
+   * Google Sheet ID powering editable content (stats, reviews, settings).
+   * Paste the ID from your sheet URL: docs.google.com/spreadsheets/d/<THIS_PART>/edit
+   * The sheet must be shared as "Anyone with the link can view". Leave blank to use built-in defaults.
+   */
+  sheetId: "",
   name: "Kogko's Motors",
   tagline: "The Art of Automotive Excellence",
   description:

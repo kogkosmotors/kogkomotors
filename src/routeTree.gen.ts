@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TradeInRouteImport } from './routes/trade-in'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as InventoryRouteImport } from './routes/inventory'
@@ -22,11 +21,6 @@ import { Route as BrandsIndexRouteImport } from './routes/brands.index'
 import { Route as VehicleIdRouteImport } from './routes/vehicle.$id'
 import { Route as BrandsBrandRouteImport } from './routes/brands.$brand'
 
-const TradeInRoute = TradeInRouteImport.update({
-  id: '/trade-in',
-  path: '/trade-in',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -92,7 +86,6 @@ export interface FileRoutesByFullPath {
   '/inventory': typeof InventoryRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
-  '/trade-in': typeof TradeInRoute
   '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
   '/brands/': typeof BrandsIndexRoute
@@ -106,7 +99,6 @@ export interface FileRoutesByTo {
   '/inventory': typeof InventoryRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
-  '/trade-in': typeof TradeInRoute
   '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
   '/brands': typeof BrandsIndexRoute
@@ -121,7 +113,6 @@ export interface FileRoutesById {
   '/inventory': typeof InventoryRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
-  '/trade-in': typeof TradeInRoute
   '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
   '/brands/': typeof BrandsIndexRoute
@@ -137,7 +128,6 @@ export interface FileRouteTypes {
     | '/inventory'
     | '/privacy'
     | '/terms'
-    | '/trade-in'
     | '/brands/$brand'
     | '/vehicle/$id'
     | '/brands/'
@@ -151,7 +141,6 @@ export interface FileRouteTypes {
     | '/inventory'
     | '/privacy'
     | '/terms'
-    | '/trade-in'
     | '/brands/$brand'
     | '/vehicle/$id'
     | '/brands'
@@ -165,7 +154,6 @@ export interface FileRouteTypes {
     | '/inventory'
     | '/privacy'
     | '/terms'
-    | '/trade-in'
     | '/brands/$brand'
     | '/vehicle/$id'
     | '/brands/'
@@ -180,7 +168,6 @@ export interface RootRouteChildren {
   InventoryRoute: typeof InventoryRoute
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
-  TradeInRoute: typeof TradeInRoute
   BrandsBrandRoute: typeof BrandsBrandRoute
   VehicleIdRoute: typeof VehicleIdRoute
   BrandsIndexRoute: typeof BrandsIndexRoute
@@ -188,13 +175,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/trade-in': {
-      id: '/trade-in'
-      path: '/trade-in'
-      fullPath: '/trade-in'
-      preLoaderRoute: typeof TradeInRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -284,7 +264,6 @@ const rootRouteChildren: RootRouteChildren = {
   InventoryRoute: InventoryRoute,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
-  TradeInRoute: TradeInRoute,
   BrandsBrandRoute: BrandsBrandRoute,
   VehicleIdRoute: VehicleIdRoute,
   BrandsIndexRoute: BrandsIndexRoute,

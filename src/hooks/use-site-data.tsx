@@ -1,10 +1,11 @@
-import { createContext, useContext, useMemo, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   defaultSiteData,
   flagOf,
   textOf,
   type SiteData,
 } from "@/lib/site-data";
+import { fetchSiteData } from "@/lib/site-sheet";
 
 interface SiteDataContextValue extends SiteData {
   /** True boolean toggle from the Sections tab. */
@@ -17,15 +18,33 @@ interface SiteDataContextValue extends SiteData {
 const SiteDataContext = createContext<SiteDataContextValue | null>(null);
 
 export function SiteDataProvider({ children }: { children: ReactNode }) {
-  const value = useMemo<SiteDataContextValue>(() => {
-    const built: SiteData = defaultSiteData;
-    return {
-      ...built,
-      flag: (key, fallback = true) => flagOf(built.sections, key, fallback),
-      text: (key, fallback = "") => textOf(built.sections, key, fallback),
-      loading: false,
+  const [data, setData] = useState<SiteData>(defaultSiteData);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    setLoading(true);
+    fetchSiteData()
+      .then((fetched) => {
+        if (active && fetched) setData(fetched);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
     };
   }, []);
+
+  const value = useMemo<SiteDataContextValue>(() => {
+    return {
+      ...data,
+      flag: (key, fallback = true) => flagOf(data.sections, key, fallback),
+      text: (key, fallback = "") => textOf(data.sections, key, fallback),
+      loading,
+    };
+  }, [data, loading]);
 
   return (
     <SiteDataContext.Provider value={value}>{children}</SiteDataContext.Provider>

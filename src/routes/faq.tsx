@@ -35,8 +35,7 @@ export const Route = createFileRoute("/faq")({
 const faqs = [
   { cat: "Buying", q: "How do I reserve a vehicle?", a: "You can reserve any vehicle by placing a refundable deposit through our team. Simply enquire on the vehicle page or contact us directly." },
   { cat: "Buying", q: "Can I view a car before purchasing?", a: "Absolutely. We encourage private viewings at our Nicosia showroom. Book an appointment and a specialist will guide you through every detail." },
-  { cat: "Trade-In", q: "How is my trade-in valued?", a: "We base valuations on live market data, condition, mileage and history. Submit a request and we'll respond within 24 hours." },
-  { cat: "Trade-In", q: "Can I part-exchange against any car?", a: "Yes, your trade-in value can be offset directly against any vehicle in our inventory." },
+  { cat: "Buying", q: "Can I book a test drive?", a: "Yes. Open any vehicle and use the \"Book a Test Drive\" button to send a request — we'll confirm your preferred date and time." },
   { cat: "Warranty", q: "Do vehicles come with a warranty?", a: "Eligible vehicles include a comprehensive warranty. Extended warranty options are available — ask our team for details." },
   { cat: "Reservations", q: "Is my deposit refundable?", a: "Yes, reservation deposits are fully refundable should you decide not to proceed." },
   { cat: "Payments", q: "What payment methods do you accept?", a: "We accept bank transfer and major payment methods. Our team will guide you through the secure process." },

@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, ShieldCheck, Award, Headphones, Banknote, Repeat, Star, Quote } from "lucide-react";
+import { ArrowRight, ShieldCheck, Award, Headphones, Banknote, Star, Quote } from "lucide-react";
 import heroImg from "@/assets/cars/hero.jpg.asset.json";
 import { VehicleCard } from "@/components/VehicleCard";
 import { Reveal, SectionHeading } from "@/components/ui/reveal";
@@ -30,14 +30,8 @@ const whyUs = [
   { icon: Headphones, title: "Concierge Service", text: "A dedicated specialist from first viewing to delivery." },
 ];
 
-const testimonials = [
-  { name: "Andreas P.", car: "Porsche 911 Turbo S", text: "An impeccable experience from start to finish. The most refined dealership in Cyprus." },
-  { name: "Maria K.", car: "Range Rover Autobiography", text: "Effortless, honest and genuinely luxurious. They handled everything beautifully." },
-  { name: "Dimitris L.", car: "Bentley Continental GT", text: "World-class service. The trade-in valuation was the fairest I've ever received." },
-];
-
 function Home() {
-  const { config, vehicles, text } = useSiteData();
+  const { config, vehicles, text, stats, reviews } = useSiteData();
   const featured = vehicles.filter((v) => v.featured);
   const latest = [...vehicles].sort((a, b) => b.year - a.year).slice(0, 3);
   const brands = Array.from(new Set(vehicles.map((v) => v.make).filter(Boolean))).sort();
@@ -64,28 +58,25 @@ function Home() {
               <Link to="/inventory">Browse Vehicles <ArrowRight className="h-4 w-4" /></Link>
             </Button>
             <Button asChild variant="outlineGold" size="xl">
-              <Link to="/trade-in">Trade In Vehicle</Link>
+              <Link to="/contact">Contact Us</Link>
             </Button>
           </motion.div>
         </div>
       </section>
 
       {/* STATS */}
+      {stats.length > 0 && (
       <section className="border-y border-border bg-[#0a0a0a]">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-border px-4 sm:px-6 md:grid-cols-4">
-          {[
-            { n: "500+", l: "Vehicles Delivered" },
-            { n: "25+", l: "Premium Brands" },
-            { n: "15", l: "Years of Excellence" },
-            { n: "98%", l: "Client Satisfaction" },
-          ].map((s) => (
-            <div key={s.l} className="px-4 py-8 text-center">
-              <p className="text-gold-gradient font-display text-3xl font-semibold sm:text-4xl">{s.n}</p>
-              <p className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">{s.l}</p>
+        <div className={`mx-auto grid max-w-7xl divide-x divide-border px-4 sm:px-6 ${stats.length >= 4 ? "grid-cols-2 md:grid-cols-4" : stats.length === 3 ? "grid-cols-3" : stats.length === 2 ? "grid-cols-2" : "grid-cols-1"}`}>
+          {stats.map((s) => (
+            <div key={s.label} className="px-4 py-8 text-center">
+              <p className="text-gold-gradient font-display text-3xl font-semibold sm:text-4xl">{s.value}</p>
+              <p className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">{s.label}</p>
             </div>
           ))}
         </div>
       </section>
+      )}
 
       {/* FEATURED */}
       <section className="section-pad">
@@ -128,20 +119,7 @@ function Home() {
         </div>
       </section>
 
-      {/* TRADE-IN PROMO */}
-      <section className="section-pad border-t border-border bg-[#0a0a0a]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <Reveal>
-            <div className="luxury-card flex h-full flex-col rounded-2xl p-8 max-w-2xl mx-auto">
-              <Repeat className="h-9 w-9 text-primary" />
-              <p className="mt-5 text-xs font-semibold uppercase tracking-[0.3em] text-primary">Trade-In</p>
-              <h3 className="mt-2 font-display text-2xl sm:text-3xl">Your Car, Valued Fairly</h3>
-              <p className="mt-3 flex-1 text-muted-foreground">Receive a transparent, market-leading valuation and trade in with total confidence.</p>
-              <Button asChild variant="luxury" className="mt-6 self-start"><Link to="/trade-in">Value My Car</Link></Button>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+
 
       {/* WHY US */}
       <section className="section-pad">
@@ -162,23 +140,25 @@ function Home() {
       </section>
 
       {/* TESTIMONIALS */}
+      {reviews.length > 0 && (
       <section className="section-pad border-t border-border bg-[#0a0a0a]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <Reveal><SectionHeading eyebrow="Client Voices" title="What Our Clients Say" center /></Reveal>
           <div className="mt-10 grid gap-6 lg:grid-cols-3">
-            {testimonials.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.08}>
+            {reviews.map((t, i) => (
+              <Reveal key={`${t.name}-${i}`} delay={i * 0.08}>
                 <figure className="luxury-card h-full rounded-xl p-7">
                   <Quote className="h-8 w-8 text-primary/60" />
                   <div className="mt-3 flex gap-0.5">{Array.from({ length: 5 }).map((_, k) => <Star key={k} className="h-4 w-4 fill-primary text-primary" />)}</div>
                   <blockquote className="mt-4 text-secondary-foreground/90">"{t.text}"</blockquote>
-                  <figcaption className="mt-5 text-sm"><span className="font-semibold text-foreground">{t.name}</span><br /><span className="text-muted-foreground">{t.car}</span></figcaption>
+                  <figcaption className="mt-5 text-sm"><span className="font-semibold text-foreground">{t.name}</span>{t.car && <><br /><span className="text-muted-foreground">{t.car}</span></>}</figcaption>
                 </figure>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
+      )}
 
       {/* CONTACT CTA + MAP */}
       <section className="section-pad">
