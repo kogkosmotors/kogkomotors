@@ -202,7 +202,7 @@ function Home() {
             <div className="overflow-hidden rounded-xl gold-border">
               <iframe
                 title="Kogko's Motors location"
-                src={`https://www.google.com/maps?q=${encodeURIComponent(siteConfig.mapQuery)}&output=embed`}
+                src={`https://www.google.com/maps?q=${encodeURIComponent(config.mapQuery)}&output=embed`}
                 className="h-[340px] w-full"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
