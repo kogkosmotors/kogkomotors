@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Search, SlidersHorizontal, X } from "lucide-react";
-import { vehicles, brands, bodyTypes, fuelTypes, transmissions, formatPrice } from "@/data/vehicles";
+import { formatPrice } from "@/data/vehicles";
+import { useSiteData } from "@/hooks/use-site-data";
 import { VehicleCard } from "@/components/VehicleCard";
 import { Reveal } from "@/components/ui/reveal";
 import { Input } from "@/components/ui/input";
@@ -26,26 +27,45 @@ export const Route = createFileRoute("/inventory")({
 });
 
 const ALL = "all";
-const maxPrice = Math.max(...vehicles.map((v) => v.price));
-const minYear = Math.min(...vehicles.map((v) => v.year));
-const maxYear = Math.max(...vehicles.map((v) => v.year));
 
 type Sort = "newest" | "oldest" | "price-asc" | "price-desc" | "mileage";
 
 function Inventory() {
+  const { vehicles } = useSiteData();
+
+  const { brands, bodyTypes, fuelTypes, transmissions, maxPrice, minYear, maxYear } = useMemo(() => {
+    const uniq = (arr: string[]) => Array.from(new Set(arr.filter(Boolean))).sort();
+    const prices = vehicles.map((v) => v.price);
+    const years = vehicles.map((v) => v.year);
+    return {
+      brands: uniq(vehicles.map((v) => v.make)),
+      bodyTypes: uniq(vehicles.map((v) => v.bodyType)),
+      fuelTypes: uniq(vehicles.map((v) => v.fuel)),
+      transmissions: uniq(vehicles.map((v) => v.transmission)),
+      maxPrice: prices.length ? Math.max(...prices) : 500000,
+      minYear: years.length ? Math.min(...years) : 2010,
+      maxYear: years.length ? Math.max(...years) : new Date().getFullYear(),
+    };
+  }, [vehicles]);
+
   const [q, setQ] = useState("");
   const [brand, setBrand] = useState(ALL);
   const [body, setBody] = useState(ALL);
   const [fuel, setFuel] = useState(ALL);
   const [trans, setTrans] = useState(ALL);
-  const [price, setPrice] = useState<number>(maxPrice);
-  const [year, setYear] = useState<number>(minYear);
+  const [priceCap, setPriceCap] = useState<number | null>(null);
+  const [yearFrom, setYearFrom] = useState<number | null>(null);
   const [sort, setSort] = useState<Sort>("newest");
   const [showFilters, setShowFilters] = useState(false);
 
+  const price = priceCap ?? maxPrice;
+  const year = yearFrom ?? minYear;
+  const setPrice = (n: number) => setPriceCap(n);
+  const setYear = (n: number) => setYearFrom(n);
+
   const reset = () => {
     setQ(""); setBrand(ALL); setBody(ALL); setFuel(ALL); setTrans(ALL);
-    setPrice(maxPrice); setYear(minYear); setSort("newest");
+    setPriceCap(null); setYearFrom(null); setSort("newest");
   };
 
   const results = useMemo(() => {

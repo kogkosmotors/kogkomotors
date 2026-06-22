@@ -3,7 +3,7 @@ import { Phone, Mail, MapPin, Clock, MessageCircle, Navigation } from "lucide-re
 import { LeadForm } from "@/components/LeadForm";
 import { Reveal, SectionHeading } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/lib/site-config";
+import { useSiteData } from "@/hooks/use-site-data";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -19,6 +19,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 function Contact() {
+  const { config: siteConfig } = useSiteData();
   return (
     <>
       <section className="border-b border-border bg-[#0a0a0a] py-16 sm:py-20">

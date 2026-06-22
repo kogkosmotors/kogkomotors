@@ -14,6 +14,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { Toaster } from "@/components/ui/sonner";
+import { SiteDataProvider } from "@/hooks/use-site-data";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -113,13 +114,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "AutoDealer",
           name: "Kogko's Motors",
           description: "Cyprus's premier luxury vehicle dealership.",
-          telephone: "+35799000000",
+          telephone: "+35799592202",
           email: "sales@kogkosmotors.com",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "12 Makarios Avenue",
+            streetAddress: "Strovolos",
             addressLocality: "Nicosia",
-            postalCode: "1065",
             addressCountry: "CY",
           },
         }),
@@ -151,16 +151,18 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-dvh flex-col">
-        <Header />
-        <main className="flex-1">
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
-        </main>
-        <Footer />
-        <WhatsAppButton />
-      </div>
-      <Toaster position="top-center" />
+      <SiteDataProvider>
+        <div className="flex min-h-dvh flex-col">
+          <Header />
+          <main className="flex-1">
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </main>
+          <Footer />
+          <WhatsAppButton />
+        </div>
+        <Toaster position="top-center" />
+      </SiteDataProvider>
     </QueryClientProvider>
   );
 }

@@ -1,9 +1,12 @@
-import { siteConfig } from "@/lib/site-config";
+import { useSiteData } from "@/hooks/use-site-data";
 
 export function WhatsAppButton() {
+  const { config, flag } = useSiteData();
+  if (!flag("show_whatsapp_button", true)) return null;
+
   return (
     <a
-      href={`https://wa.me/${siteConfig.whatsapp}`}
+      href={`https://wa.me/${config.whatsapp}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"

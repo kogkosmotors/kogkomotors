@@ -1,17 +1,18 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Phone, Share2, ChevronLeft, Check, Gauge, Fuel, Settings2, Calendar, Cog, Zap, Palette, MapPin } from "lucide-react";
-import { getVehicle, getRelated, vehicles, formatPrice, formatMileage } from "@/data/vehicles";
+import { formatPrice, formatMileage, type Vehicle } from "@/data/vehicles";
+import { getVehicleData } from "@/lib/site-sheet.functions";
+import { useSiteData } from "@/hooks/use-site-data";
 import { VehicleCard } from "@/components/VehicleCard";
 import { FinanceCalculator } from "@/components/FinanceCalculator";
 import { LeadForm } from "@/components/LeadForm";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { siteConfig } from "@/lib/site-config";
 
 export const Route = createFileRoute("/vehicle/$id")({
-  loader: ({ params }) => {
-    const vehicle = getVehicle(params.id);
+  loader: async ({ params }) => {
+    const vehicle = await getVehicleData({ data: params.id });
     if (!vehicle) throw notFound();
     return { vehicle };
   },
@@ -68,7 +69,11 @@ export const Route = createFileRoute("/vehicle/$id")({
 
 function VehicleDetail() {
   const { vehicle: v } = Route.useLoaderData();
-  const related = getRelated(v);
+  const { config, vehicles, flag } = useSiteData();
+  const related = vehicles
+    .filter((x: Vehicle) => x.id !== v.id && (x.make === v.make || x.bodyType === v.bodyType))
+    .slice(0, 3);
+
 
   const specs = [
     { icon: Calendar, label: "Year", value: v.year },
@@ -121,9 +126,9 @@ function VehicleDetail() {
           <p className="text-gold-gradient mt-5 font-display text-4xl font-semibold">{formatPrice(v.price)}</p>
 
           <div className="mt-7 grid grid-cols-2 gap-3">
-            <Button asChild variant="luxury" size="lg"><a href={siteConfig.phoneHref}><Phone className="h-4 w-4" /> Call Dealer</a></Button>
+            <Button asChild variant="luxury" size="lg"><a href={config.phoneHref}><Phone className="h-4 w-4" /> Call Dealer</a></Button>
             <Button asChild variant="outlineGold" size="lg">
-              <a href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(`Hi, I'm interested in the ${v.year} ${v.make} ${v.model}`)}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              <a href={`https://wa.me/${config.whatsapp}?text=${encodeURIComponent(`Hi, I'm interested in the ${v.year} ${v.make} ${v.model}`)}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
             </Button>
             <Button asChild variant="outlineGold" size="lg"><Link to="/trade-in">Trade-In</Link></Button>
             <Button variant="outlineGold" size="lg" onClick={share}><Share2 className="h-4 w-4" /> Share</Button>
@@ -166,7 +171,7 @@ function VehicleDetail() {
         </div>
 
         <div className="space-y-8">
-          <FinanceCalculator price={v.price} />
+          {flag("show_finance_calculator", true) && <FinanceCalculator price={v.price} />}
           <LeadForm
             type="vehicle-inquiry"
             title="Enquire About This Vehicle"
@@ -189,4 +194,3 @@ function VehicleDetail() {
   );
 }
 
-export { vehicles };

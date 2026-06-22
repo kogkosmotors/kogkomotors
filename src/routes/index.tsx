@@ -2,11 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowRight, ShieldCheck, Award, Headphones, Banknote, Repeat, Star, Quote } from "lucide-react";
 import heroImg from "@/assets/cars/hero.jpg.asset.json";
-import { vehicles, brands } from "@/data/vehicles";
 import { VehicleCard } from "@/components/VehicleCard";
 import { Reveal, SectionHeading } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/lib/site-config";
+import { useSiteData } from "@/hooks/use-site-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,8 +22,6 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const featured = vehicles.filter((v) => v.featured);
-const latest = [...vehicles].sort((a, b) => b.year - a.year).slice(0, 3);
 
 const whyUs = [
   { icon: Award, title: "Curated Excellence", text: "Every vehicle is hand-selected and inspected to the highest standard." },
@@ -40,6 +37,10 @@ const testimonials = [
 ];
 
 function Home() {
+  const { config, vehicles, text } = useSiteData();
+  const featured = vehicles.filter((v) => v.featured);
+  const latest = [...vehicles].sort((a, b) => b.year - a.year).slice(0, 3);
+  const brands = Array.from(new Set(vehicles.map((v) => v.make).filter(Boolean))).sort();
   return (
     <>
       {/* HERO */}
@@ -50,13 +51,13 @@ function Home() {
 
         <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6">
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="text-xs font-semibold uppercase tracking-[0.4em] text-primary">
-            {siteConfig.tagline}
+            {text("hero_eyebrow", config.tagline)}
           </motion.p>
           <motion.h1 initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="mt-5 max-w-3xl font-display text-5xl leading-[1.05] sm:text-6xl md:text-7xl">
             Drive the <span className="text-gold-gradient">Extraordinary</span>
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="mt-6 max-w-xl text-lg text-secondary-foreground/85">
-            Cyprus's premier destination for luxury and performance automobiles. A curated collection, an uncompromising standard.
+            {text("hero_subtext", "Cyprus's premier destination for luxury and performance automobiles. A curated collection, an uncompromising standard.")}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }} className="mt-9 flex flex-wrap gap-4">
             <Button asChild variant="luxury" size="xl">
@@ -194,14 +195,14 @@ function Home() {
             <SectionHeading eyebrow="Visit Us" title="Experience Kogko's Motors" subtitle="Step into our showroom in the heart of Nicosia, or arrange a private viewing at your convenience." />
             <div className="mt-7 flex flex-wrap gap-4">
               <Button asChild variant="luxury" size="lg"><Link to="/contact">Contact Us</Link></Button>
-              <Button asChild variant="outlineGold" size="lg"><a href={siteConfig.phoneHref}>Call {siteConfig.phone}</a></Button>
+              <Button asChild variant="outlineGold" size="lg"><a href={config.phoneHref}>Call {config.phone}</a></Button>
             </div>
           </Reveal>
           <Reveal delay={0.1}>
             <div className="overflow-hidden rounded-xl gold-border">
               <iframe
                 title="Kogko's Motors location"
-                src={`https://www.google.com/maps?q=${encodeURIComponent(siteConfig.mapQuery)}&output=embed`}
+                src={`https://www.google.com/maps?q=${encodeURIComponent(config.mapQuery)}&output=embed`}
                 className="h-[340px] w-full"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

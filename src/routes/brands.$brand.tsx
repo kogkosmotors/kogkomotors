@@ -1,13 +1,16 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
-import { brands, vehicles } from "@/data/vehicles";
+import { getSiteSheet } from "@/lib/site-sheet.functions";
+import { buildSiteData } from "@/lib/site-data";
 import { VehicleCard } from "@/components/VehicleCard";
 import { Button } from "@/components/ui/button";
 
 const slug = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
 
 export const Route = createFileRoute("/brands/$brand")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
+    const { vehicles } = buildSiteData(await getSiteSheet());
+    const brands = Array.from(new Set(vehicles.map((v) => v.make).filter(Boolean)));
     const brand = brands.find((b) => slug(b) === params.brand);
     if (!brand) throw notFound();
     return { brand, cars: vehicles.filter((v) => v.make === brand) };

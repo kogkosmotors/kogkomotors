@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
-import { vehicles, brands } from "@/data/vehicles";
+import { getSiteSheet } from "@/lib/site-sheet.functions";
+import { buildSiteData } from "@/lib/site-data";
 
 const BASE_URL = "";
 
@@ -14,6 +15,8 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
+        const { vehicles } = buildSiteData(await getSiteSheet());
+        const brands = Array.from(new Set(vehicles.map((v) => v.make).filter(Boolean))).sort();
         const staticPaths: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
           { path: "/inventory", changefreq: "daily", priority: "0.9" },
