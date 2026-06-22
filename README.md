@@ -10,29 +10,8 @@ Vehicles live in `src/data/vehicles.ts`. Each record carries the full spec set
 (make, model, year, mileage, price, fuel, transmission, drive, engine, hp,
 colors, VIN, features, gallery, availability, featured, location).
 
-## Google Sheets CMS (optional headless inventory)
-The dealer can manage inventory from a Google Sheet — no admin panel needed.
-
-### Setup
-1. Create a Google Sheet with a header row matching:
-   `id, make, model, year, price, mileage, transmission, fuel, bodyType, description, features, images, featured, available, make/brand, color, engine, horsepower, location`
-2. **Publish to web** (File → Share → Publish to web) or use the Sheets API.
-3. Add the env var below and wire `src/data/vehicles.ts` to fetch + map rows
-   inside a server function (`createServerFn`) so the site updates automatically.
-
-### Environment variables
-```
-GOOGLE_SHEETS_ID=your_sheet_id
-GOOGLE_SHEETS_API_KEY=your_api_key
-LEADS_WEBHOOK_URL=https://script.google.com/...   # receives every form lead
-```
-Read them with `process.env.*` inside server functions only.
-
 ## Lead capture
-All forms (Contact, Trade-In, Vehicle Enquiry) post to the
-`submitLead` server function in `src/lib/leads.functions.ts`. Set
-`LEADS_WEBHOOK_URL` (e.g. a Google Apps Script web app) to forward leads to a
-Sheet/email; otherwise leads are logged server-side.
+All forms show an on-site confirmation and can be wired to a backend endpoint later if persistent lead storage is needed.
 
 ## Dealer configuration
 Brand info, phone, WhatsApp, email, address, hours and socials live in
@@ -40,7 +19,7 @@ Brand info, phone, WhatsApp, email, address, hours and socials live in
 
 ## SEO
 Per-route metadata, Open Graph, Twitter cards, AutoDealer / Car / FAQ JSON-LD,
-dynamic `sitemap.xml`, `robots.txt`, PWA manifest and canonical tags are all wired.
+PWA manifest and canonical tags are wired.
 
 ## Develop
 The dev server runs automatically in Lovable. Routes are file-based under `src/routes/`.

@@ -2,10 +2,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { CheckCircle2 } from "lucide-react";
-import { submitLead } from "@/lib/leads.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -35,7 +33,6 @@ export function LeadForm({
   cta?: string;
 }) {
   const [done, setDone] = useState(false);
-  const send = useServerFn(submitLead);
   const {
     register,
     handleSubmit,
@@ -43,13 +40,9 @@ export function LeadForm({
   } = useForm<Values>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (values: Values) => {
-    try {
-      await send({ data: { type, ...values, message: values.message ?? "", meta } });
-      setDone(true);
-      toast.success("Request received — our team will contact you shortly.");
-    } catch {
-      toast.error("Something went wrong. Please try again or call us.");
-    }
+    console.info("Lead request", { type, ...values, message: values.message ?? "", meta });
+    setDone(true);
+    toast.success("Request received — our team will contact you shortly.");
   };
 
   if (done) {
