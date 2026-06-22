@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import type { RawSheetData } from "@/lib/site-data";
+import type { RawSheetData } from "@/lib/sheet-types";
 
 const SPREADSHEET_ID = "11JTMGzYZScrL4nsDozLzHuZnwfdTlXI2Jwy1SSjJACU";
 const GATEWAY = "https://connector-gateway.lovable.dev/google_sheets/v4";
