@@ -37,6 +37,10 @@ const testimonials = [
 ];
 
 function Home() {
+  const { config, vehicles, text } = useSiteData();
+  const featured = vehicles.filter((v) => v.featured);
+  const latest = [...vehicles].sort((a, b) => b.year - a.year).slice(0, 3);
+  const brands = Array.from(new Set(vehicles.map((v) => v.make).filter(Boolean))).sort();
   return (
     <>
       {/* HERO */}
