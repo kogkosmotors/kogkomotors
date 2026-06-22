@@ -98,6 +98,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "Kogko's Motors — Luxury & Performance Vehicles in Cyprus" },
       { name: "description", content: "Kogko's Luxury Motors is a premium online dealership showcasing high-end vehicles with a luxurious user experience." },
       { name: "twitter:description", content: "Kogko's Luxury Motors is a premium online dealership showcasing high-end vehicles with a luxurious user experience." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4eb50c92-3fd3-46b7-9100-528b54c5c34c/id-preview-86dd57bb--9aeb962f-850b-45a7-bbab-3a0e1a781d65.lovable.app-1782157325256.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4eb50c92-3fd3-46b7-9100-528b54c5c34c/id-preview-86dd57bb--9aeb962f-850b-45a7-bbab-3a0e1a781d65.lovable.app-1782157325256.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
