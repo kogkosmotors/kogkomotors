@@ -13,7 +13,6 @@ export function Header() {
     { to: "/", label: "Home", show: true },
     { to: "/inventory", label: "Inventory", show: true },
     { to: "/brands", label: "Brands", show: flag("show_brands_page", true) },
-    { to: "/trade-in", label: "Trade-In", show: flag("show_tradein_page", true) },
     { to: "/about", label: "About", show: flag("show_about_page", true) },
     { to: "/contact", label: "Contact", show: flag("show_contact_page", true) },
   ].filter((n) => n.show);
