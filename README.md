@@ -3,7 +3,7 @@
 A premium, production-ready dealership website built on **TanStack Start (React 19 + TypeScript)**, Tailwind CSS, shadcn/ui and Framer Motion.
 
 ## Pages
-Home · Inventory (filters/search/sort) · Vehicle Details (gallery, specs, finance calculator, lead form, related) · Finance · Trade-In · About · Contact · FAQ · Brands (+ dynamic brand pages) · Privacy · Terms · Cookies · 404.
+Home · Inventory (filters/search/sort) · Vehicle Details (gallery, specs, calculator, lead form, related) · Trade-In · About · Contact · FAQ · Brands (+ dynamic brand pages) · Privacy · Terms · Cookies · 404.
 
 ## Vehicle data
 Vehicles live in `src/data/vehicles.ts`. Each record carries the full spec set
@@ -29,7 +29,7 @@ LEADS_WEBHOOK_URL=https://script.google.com/...   # receives every form lead
 Read them with `process.env.*` inside server functions only.
 
 ## Lead capture
-All forms (Contact, Finance, Trade-In, Vehicle Enquiry) post to the
+All forms (Contact, Trade-In, Vehicle Enquiry) post to the
 `submitLead` server function in `src/lib/leads.functions.ts`. Set
 `LEADS_WEBHOOK_URL` (e.g. a Google Apps Script web app) to forward leads to a
 Sheet/email; otherwise leads are logged server-side.
