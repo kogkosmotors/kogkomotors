@@ -162,23 +162,25 @@ function Home() {
       </section>
 
       {/* TESTIMONIALS */}
+      {reviews.length > 0 && (
       <section className="section-pad border-t border-border bg-[#0a0a0a]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <Reveal><SectionHeading eyebrow="Client Voices" title="What Our Clients Say" center /></Reveal>
           <div className="mt-10 grid gap-6 lg:grid-cols-3">
-            {testimonials.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.08}>
+            {reviews.map((t, i) => (
+              <Reveal key={`${t.name}-${i}`} delay={i * 0.08}>
                 <figure className="luxury-card h-full rounded-xl p-7">
                   <Quote className="h-8 w-8 text-primary/60" />
                   <div className="mt-3 flex gap-0.5">{Array.from({ length: 5 }).map((_, k) => <Star key={k} className="h-4 w-4 fill-primary text-primary" />)}</div>
                   <blockquote className="mt-4 text-secondary-foreground/90">"{t.text}"</blockquote>
-                  <figcaption className="mt-5 text-sm"><span className="font-semibold text-foreground">{t.name}</span><br /><span className="text-muted-foreground">{t.car}</span></figcaption>
+                  <figcaption className="mt-5 text-sm"><span className="font-semibold text-foreground">{t.name}</span>{t.car && <><br /><span className="text-muted-foreground">{t.car}</span></>}</figcaption>
                 </figure>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
+      )}
 
       {/* CONTACT CTA + MAP */}
       <section className="section-pad">
