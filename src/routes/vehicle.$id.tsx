@@ -69,7 +69,11 @@ export const Route = createFileRoute("/vehicle/$id")({
 
 function VehicleDetail() {
   const { vehicle: v } = Route.useLoaderData();
-  const related = getRelated(v);
+  const { config, vehicles, flag } = useSiteData();
+  const related = vehicles
+    .filter((x: Vehicle) => x.id !== v.id && (x.make === v.make || x.bodyType === v.bodyType))
+    .slice(0, 3);
+
 
   const specs = [
     { icon: Calendar, label: "Year", value: v.year },
