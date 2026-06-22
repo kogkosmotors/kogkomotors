@@ -1,17 +1,18 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Phone, Share2, ChevronLeft, Check, Gauge, Fuel, Settings2, Calendar, Cog, Zap, Palette, MapPin } from "lucide-react";
-import { getVehicle, getRelated, vehicles, formatPrice, formatMileage } from "@/data/vehicles";
+import { formatPrice, formatMileage, type Vehicle } from "@/data/vehicles";
+import { getVehicleData } from "@/lib/site-sheet.functions";
+import { useSiteData } from "@/hooks/use-site-data";
 import { VehicleCard } from "@/components/VehicleCard";
 import { FinanceCalculator } from "@/components/FinanceCalculator";
 import { LeadForm } from "@/components/LeadForm";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { siteConfig } from "@/lib/site-config";
 
 export const Route = createFileRoute("/vehicle/$id")({
-  loader: ({ params }) => {
-    const vehicle = getVehicle(params.id);
+  loader: async ({ params }) => {
+    const vehicle = await getVehicleData({ data: params.id });
     if (!vehicle) throw notFound();
     return { vehicle };
   },
