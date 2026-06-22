@@ -71,21 +71,18 @@ function Home() {
       </section>
 
       {/* STATS */}
+      {stats.length > 0 && (
       <section className="border-y border-border bg-[#0a0a0a]">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-border px-4 sm:px-6 md:grid-cols-4">
-          {[
-            { n: "500+", l: "Vehicles Delivered" },
-            { n: "25+", l: "Premium Brands" },
-            { n: "15", l: "Years of Excellence" },
-            { n: "98%", l: "Client Satisfaction" },
-          ].map((s) => (
-            <div key={s.l} className="px-4 py-8 text-center">
-              <p className="text-gold-gradient font-display text-3xl font-semibold sm:text-4xl">{s.n}</p>
-              <p className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">{s.l}</p>
+        <div className={`mx-auto grid max-w-7xl divide-x divide-border px-4 sm:px-6 ${stats.length >= 4 ? "grid-cols-2 md:grid-cols-4" : stats.length === 3 ? "grid-cols-3" : stats.length === 2 ? "grid-cols-2" : "grid-cols-1"}`}>
+          {stats.map((s) => (
+            <div key={s.label} className="px-4 py-8 text-center">
+              <p className="text-gold-gradient font-display text-3xl font-semibold sm:text-4xl">{s.value}</p>
+              <p className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">{s.label}</p>
             </div>
           ))}
         </div>
       </section>
+      )}
 
       {/* FEATURED */}
       <section className="section-pad">
