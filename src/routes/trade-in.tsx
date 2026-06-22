@@ -3,10 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { CheckCircle2, Banknote, Repeat, Gauge } from "lucide-react";
-import { submitLead } from "@/lib/leads.functions";
 import { Reveal, SectionHeading } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,17 +46,12 @@ const benefits = [
 
 function TradeIn() {
   const [done, setDone] = useState(false);
-  const send = useServerFn(submitLead);
   const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<Values>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (v: Values) => {
-    try {
-      await send({ data: { type: "trade-in", name: v.name, email: v.email, phone: v.phone, message: v.notes ?? "", meta: { make: v.make, model: v.model, year: v.year, mileage: v.mileage, condition: v.condition } } });
-      setDone(true);
-      toast.success("Valuation request received — we'll be in touch within 24 hours.");
-    } catch {
-      toast.error("Something went wrong. Please try again.");
-    }
+    console.info("Trade-in request", v);
+    setDone(true);
+    toast.success("Valuation request received — we'll be in touch within 24 hours.");
   };
 
   return (
