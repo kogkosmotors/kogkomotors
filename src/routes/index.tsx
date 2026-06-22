@@ -195,7 +195,7 @@ function Home() {
             <SectionHeading eyebrow="Visit Us" title="Experience Kogko's Motors" subtitle="Step into our showroom in the heart of Nicosia, or arrange a private viewing at your convenience." />
             <div className="mt-7 flex flex-wrap gap-4">
               <Button asChild variant="luxury" size="lg"><Link to="/contact">Contact Us</Link></Button>
-              <Button asChild variant="outlineGold" size="lg"><a href={siteConfig.phoneHref}>Call {siteConfig.phone}</a></Button>
+              <Button asChild variant="outlineGold" size="lg"><a href={config.phoneHref}>Call {config.phone}</a></Button>
             </div>
           </Reveal>
           <Reveal delay={0.1}>
