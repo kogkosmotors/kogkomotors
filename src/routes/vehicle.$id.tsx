@@ -126,9 +126,9 @@ function VehicleDetail() {
           <p className="text-gold-gradient mt-5 font-display text-4xl font-semibold">{formatPrice(v.price)}</p>
 
           <div className="mt-7 grid grid-cols-2 gap-3">
-            <Button asChild variant="luxury" size="lg"><a href={siteConfig.phoneHref}><Phone className="h-4 w-4" /> Call Dealer</a></Button>
+            <Button asChild variant="luxury" size="lg"><a href={config.phoneHref}><Phone className="h-4 w-4" /> Call Dealer</a></Button>
             <Button asChild variant="outlineGold" size="lg">
-              <a href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(`Hi, I'm interested in the ${v.year} ${v.make} ${v.model}`)}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              <a href={`https://wa.me/${config.whatsapp}?text=${encodeURIComponent(`Hi, I'm interested in the ${v.year} ${v.make} ${v.model}`)}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
             </Button>
             <Button asChild variant="outlineGold" size="lg"><Link to="/trade-in">Trade-In</Link></Button>
             <Button variant="outlineGold" size="lg" onClick={share}><Share2 className="h-4 w-4" /> Share</Button>
