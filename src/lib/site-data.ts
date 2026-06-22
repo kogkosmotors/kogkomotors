@@ -191,6 +191,7 @@ export function buildSiteData(raw?: RawSheetData | null): SiteData {
     settings[key] && settings[key].trim() ? settings[key] : fallback;
 
   const config: SiteConfigShape = {
+    sheetId: siteConfig.sheetId,
     name: s("site_name", siteConfig.name),
     tagline: s("tagline", siteConfig.tagline),
     description: s("description", siteConfig.description),
