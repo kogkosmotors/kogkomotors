@@ -19,6 +19,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 function Contact() {
+  const { config: siteConfig } = useSiteData();
   return (
     <>
       <section className="border-b border-border bg-[#0a0a0a] py-16 sm:py-20">
