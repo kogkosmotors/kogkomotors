@@ -169,14 +169,15 @@ function VehicleDetail() {
           </ul>
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-8" id="enquire">
           {flag("show_finance_calculator", true) && <FinanceCalculator price={v.price} />}
           <LeadForm
             type="vehicle-inquiry"
-            title="Enquire About This Vehicle"
+            title="Enquire / Book a Test Drive"
             subtitle={`${v.year} ${v.make} ${v.model}`}
+            messageLabel="Message (let us know your preferred test-drive date)"
             meta={{ vehicle: `${v.year} ${v.make} ${v.model}`, vin: v.vin }}
-            cta="Send Enquiry"
+            cta="Send Request"
           />
         </div>
       </div>
