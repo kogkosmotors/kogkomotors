@@ -10,6 +10,10 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+import { Toaster } from "@/components/ui/sonner";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -77,19 +81,48 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Kogko's Motors — Luxury & Performance Vehicles in Cyprus" },
+      {
+        name: "description",
+        content:
+          "Kogko's Motors — Cyprus's premier luxury dealership. Explore a curated collection of premium and performance vehicles with bespoke finance and trade-in services.",
+      },
+      { name: "author", content: "Kogko's Motors" },
+      { name: "theme-color", content: "#000000" },
+      { property: "og:title", content: "Kogko's Motors — Luxury & Performance Vehicles" },
+      { property: "og:description", content: "Cyprus's premier luxury vehicle dealership." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { property: "og:site_name", content: "Kogko's Motors" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "AutoDealer",
+          name: "Kogko's Motors",
+          description: "Cyprus's premier luxury vehicle dealership.",
+          telephone: "+35799000000",
+          email: "sales@kogkosmotors.com",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "12 Makarios Avenue",
+            addressLocality: "Nicosia",
+            postalCode: "1065",
+            addressCountry: "CY",
+          },
+        }),
       },
     ],
   }),
@@ -118,8 +151,16 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="flex min-h-dvh flex-col">
+        <Header />
+        <main className="flex-1">
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+        </main>
+        <Footer />
+        <WhatsAppButton />
+      </div>
+      <Toaster position="top-center" />
     </QueryClientProvider>
   );
 }
