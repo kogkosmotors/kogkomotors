@@ -64,7 +64,7 @@ function Home() {
               <Link to="/inventory">Browse Vehicles <ArrowRight className="h-4 w-4" /></Link>
             </Button>
             <Button asChild variant="outlineGold" size="xl">
-              <Link to="/trade-in">Trade In Vehicle</Link>
+              <Link to="/contact">Contact Us</Link>
             </Button>
           </motion.div>
         </div>
