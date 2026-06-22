@@ -45,17 +45,6 @@ dynamic `sitemap.xml`, `robots.txt`, PWA manifest and canonical tags are all wir
 ## Develop
 The dev server runs automatically in Lovable. Routes are file-based under `src/routes/`.
 
-## Google Sheet Control Panel
+## Inventory and site data
 
-The entire website is controlled from one Google Sheet (no code changes needed):
-
-**Sheet:** https://docs.google.com/spreadsheets/d/11JTMGzYZScrL4nsDozLzHuZnwfdTlXI2Jwy1SSjJACU/edit
-
-Tabs:
-- **Settings** — business name, tagline, phone, WhatsApp, email, address, map, opening hours, social links.
-- **Sections** — TRUE/FALSE toggles to show/hide pages, nav links, the WhatsApp button, the finance calculator, plus editable hero headline/subtext and footer text.
-- **Vehicles** — one row per car. Add a row to add a car, edit a cell to change details, set `available`/`featured` to TRUE/FALSE. `features` and `image_url` accept multiple values separated by `|`. Leave `image_url` blank to use a built-in fallback image for the brand.
-
-Changes appear on the live site within ~60 seconds (server-side cache). The dealership only needs **edit access** to this sheet.
-
-Technically, the site reads the sheet through the Lovable Google Sheets connector gateway in `src/lib/site-sheet.functions.ts`, parses it in `src/lib/site-data.ts`, and shares it site-wide via `src/hooks/use-site-data.tsx`.
+The published site currently uses the checked-in fallback inventory and site settings so production builds stay stable. Editable external inventory can be reintroduced later behind a simpler API endpoint if needed.
