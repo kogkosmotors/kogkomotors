@@ -2,11 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowRight, ShieldCheck, Award, Headphones, Banknote, Repeat, Star, Quote } from "lucide-react";
 import heroImg from "@/assets/cars/hero.jpg.asset.json";
-import { vehicles, brands } from "@/data/vehicles";
 import { VehicleCard } from "@/components/VehicleCard";
 import { Reveal, SectionHeading } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/lib/site-config";
+import { useSiteData } from "@/hooks/use-site-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({

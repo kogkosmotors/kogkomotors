@@ -2,26 +2,28 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, X, Phone } from "lucide-react";
 import logo from "@/assets/kogkos-logo.png.asset.json";
-import { siteConfig } from "@/lib/site-config";
+import { useSiteData } from "@/hooks/use-site-data";
 import { Button } from "@/components/ui/button";
-
-const nav = [
-  { to: "/", label: "Home" },
-  { to: "/inventory", label: "Inventory" },
-  { to: "/brands", label: "Brands" },
-  { to: "/finance", label: "Finance" },
-  { to: "/trade-in", label: "Trade-In" },
-  { to: "/about", label: "About" },
-  { to: "/contact", label: "Contact" },
-];
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const { config, flag } = useSiteData();
+
+  const nav = [
+    { to: "/", label: "Home", show: true },
+    { to: "/inventory", label: "Inventory", show: true },
+    { to: "/brands", label: "Brands", show: flag("show_brands_page", true) },
+    { to: "/finance", label: "Finance", show: flag("show_finance_page", true) },
+    { to: "/trade-in", label: "Trade-In", show: flag("show_tradein_page", true) },
+    { to: "/about", label: "About", show: flag("show_about_page", true) },
+    { to: "/contact", label: "Contact", show: flag("show_contact_page", true) },
+  ].filter((n) => n.show);
+
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <Link to="/" className="flex shrink-0 items-center" aria-label="Kogko's Motors home">
-          <img src={logo.url} alt="Kogko's Motors" className="h-10 w-auto sm:h-12" width={300} height={120} />
+        <Link to="/" className="flex shrink-0 items-center" aria-label={`${config.name} home`}>
+          <img src={logo.url} alt={config.name} className="h-10 w-auto sm:h-12" width={300} height={120} />
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">
@@ -39,9 +41,11 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <a href={siteConfig.phoneHref} className="flex items-center gap-2 text-sm text-secondary-foreground/80 hover:text-primary">
-            <Phone className="h-4 w-4 text-primary" /> {siteConfig.phone}
-          </a>
+          {flag("show_phone_in_header", true) && (
+            <a href={config.phoneHref} className="flex items-center gap-2 text-sm text-secondary-foreground/80 hover:text-primary">
+              <Phone className="h-4 w-4 text-primary" /> {config.phone}
+            </a>
+          )}
           <Button asChild variant="luxury" size="sm">
             <Link to="/inventory">Browse Vehicles</Link>
           </Button>
@@ -72,7 +76,7 @@ export function Header() {
               </Link>
             ))}
             <Button asChild variant="luxury" className="mt-3">
-              <Link to="/finance" onClick={() => setOpen(false)}>Apply for Finance</Link>
+              <Link to="/inventory" onClick={() => setOpen(false)}>Browse Vehicles</Link>
             </Button>
           </div>
         </nav>
