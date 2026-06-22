@@ -7,7 +7,12 @@ import bentleyImg from "@/assets/cars/bentley.jpg.asset.json";
 import heroImg from "@/assets/cars/hero.jpg.asset.json";
 import { vehicles as fallbackVehicles, type Vehicle } from "@/data/vehicles";
 import { siteConfig } from "@/lib/site-config";
-import type { RawSheetData } from "@/lib/site-sheet.functions";
+
+export interface RawSheetData {
+  settings: Record<string, string>;
+  sections: Record<string, string>;
+  vehicleRows: string[][];
+}
 
 export type SiteConfigShape = typeof siteConfig;
 
