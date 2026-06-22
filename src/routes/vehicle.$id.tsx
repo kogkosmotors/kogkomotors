@@ -194,4 +194,3 @@ function VehicleDetail() {
   );
 }
 
-export { vehicles };
