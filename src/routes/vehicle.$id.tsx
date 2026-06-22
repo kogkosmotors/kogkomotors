@@ -171,7 +171,7 @@ function VehicleDetail() {
         </div>
 
         <div className="space-y-8">
-          <FinanceCalculator price={v.price} />
+          {flag("show_finance_calculator", true) && <FinanceCalculator price={v.price} />}
           <LeadForm
             type="vehicle-inquiry"
             title="Enquire About This Vehicle"
