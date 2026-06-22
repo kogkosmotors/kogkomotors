@@ -22,8 +22,6 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const featured = vehicles.filter((v) => v.featured);
-const latest = [...vehicles].sort((a, b) => b.year - a.year).slice(0, 3);
 
 const whyUs = [
   { icon: Award, title: "Curated Excellence", text: "Every vehicle is hand-selected and inspected to the highest standard." },
