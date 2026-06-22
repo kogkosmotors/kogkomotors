@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
-import { vehicles, brands } from "@/data/vehicles";
+import { getSiteSheet } from "@/lib/site-sheet.functions";
+import { buildSiteData } from "@/lib/site-data";
 
 const BASE_URL = "";
 
