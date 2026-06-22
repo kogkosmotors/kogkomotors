@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TradeInRouteImport } from './routes/trade-in'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as InventoryRouteImport } from './routes/inventory'
 import { Route as FinanceRouteImport } from './routes/finance'
@@ -24,6 +25,11 @@ import { Route as BrandsBrandRouteImport } from './routes/brands.$brand'
 const TradeInRoute = TradeInRouteImport.update({
   id: '/trade-in',
   path: '/trade-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/finance': typeof FinanceRoute
   '/inventory': typeof InventoryRoute
   '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/trade-in': typeof TradeInRoute
   '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
@@ -98,6 +105,7 @@ export interface FileRoutesByTo {
   '/finance': typeof FinanceRoute
   '/inventory': typeof InventoryRoute
   '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/trade-in': typeof TradeInRoute
   '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
@@ -112,6 +120,7 @@ export interface FileRoutesById {
   '/finance': typeof FinanceRoute
   '/inventory': typeof InventoryRoute
   '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/trade-in': typeof TradeInRoute
   '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
@@ -127,6 +136,7 @@ export interface FileRouteTypes {
     | '/finance'
     | '/inventory'
     | '/privacy'
+    | '/terms'
     | '/trade-in'
     | '/brands/$brand'
     | '/vehicle/$id'
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/finance'
     | '/inventory'
     | '/privacy'
+    | '/terms'
     | '/trade-in'
     | '/brands/$brand'
     | '/vehicle/$id'
@@ -153,6 +164,7 @@ export interface FileRouteTypes {
     | '/finance'
     | '/inventory'
     | '/privacy'
+    | '/terms'
     | '/trade-in'
     | '/brands/$brand'
     | '/vehicle/$id'
@@ -167,6 +179,7 @@ export interface RootRouteChildren {
   FinanceRoute: typeof FinanceRoute
   InventoryRoute: typeof InventoryRoute
   PrivacyRoute: typeof PrivacyRoute
+  TermsRoute: typeof TermsRoute
   TradeInRoute: typeof TradeInRoute
   BrandsBrandRoute: typeof BrandsBrandRoute
   VehicleIdRoute: typeof VehicleIdRoute
@@ -180,6 +193,13 @@ declare module '@tanstack/react-router' {
       path: '/trade-in'
       fullPath: '/trade-in'
       preLoaderRoute: typeof TradeInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -263,6 +283,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinanceRoute: FinanceRoute,
   InventoryRoute: InventoryRoute,
   PrivacyRoute: PrivacyRoute,
+  TermsRoute: TermsRoute,
   TradeInRoute: TradeInRoute,
   BrandsBrandRoute: BrandsBrandRoute,
   VehicleIdRoute: VehicleIdRoute,
