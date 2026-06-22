@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { buildSiteData, type RawSheetData } from "@/lib/site-data";
 
 /**
  * Master Google Sheet that controls the entire website.
@@ -7,12 +8,6 @@ import { createServerFn } from "@tanstack/react-start";
  */
 export const SPREADSHEET_ID = "11JTMGzYZScrL4nsDozLzHuZnwfdTlXI2Jwy1SSjJACU";
 const GATEWAY = "https://connector-gateway.lovable.dev/google_sheets/v4";
-
-export interface RawSheetData {
-  settings: Record<string, string>;
-  sections: Record<string, string>;
-  vehicleRows: string[][];
-}
 
 const EMPTY: RawSheetData = { settings: {}, sections: {}, vehicleRows: [] };
 
@@ -73,7 +68,6 @@ export const getVehicleData = createServerFn({ method: "GET" })
   .inputValidator((id: string) => id)
   .handler(async ({ data: id }) => {
     const raw = await fetchRawSheet();
-    const { buildSiteData } = await import("@/lib/site-data");
     const { vehicles } = buildSiteData(raw);
     return vehicles.find((v) => v.id === id) ?? null;
   });
