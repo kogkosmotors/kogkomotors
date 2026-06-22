@@ -106,7 +106,7 @@ function VehicleDetail() {
           </div>
           {v.gallery.length > 1 && (
             <div className="mt-4 grid grid-cols-4 gap-3">
-              {v.gallery.map((g, i) => (
+              {v.gallery.map((g: string, i: number) => (
                 <img key={i} src={g} alt={`${v.model} view ${i + 1}`} loading="lazy" className="aspect-square w-full rounded-lg object-cover gold-border" />
               ))}
             </div>
