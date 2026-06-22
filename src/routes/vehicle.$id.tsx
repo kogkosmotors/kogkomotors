@@ -157,7 +157,7 @@ function VehicleDetail() {
 
           <h2 className="mt-12 font-display text-3xl">Features</h2>
           <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
-            {v.features.map((f) => (
+            {v.features.map((f: string) => (
               <li key={f} className="flex items-center gap-2 text-secondary-foreground/90">
                 <Check className="h-4 w-4 shrink-0 text-primary" /> {f}
               </li>
