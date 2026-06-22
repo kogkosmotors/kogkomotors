@@ -128,20 +128,7 @@ function Home() {
         </div>
       </section>
 
-      {/* TRADE-IN PROMO */}
-      <section className="section-pad border-t border-border bg-[#0a0a0a]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <Reveal>
-            <div className="luxury-card flex h-full flex-col rounded-2xl p-8 max-w-2xl mx-auto">
-              <Repeat className="h-9 w-9 text-primary" />
-              <p className="mt-5 text-xs font-semibold uppercase tracking-[0.3em] text-primary">Trade-In</p>
-              <h3 className="mt-2 font-display text-2xl sm:text-3xl">Your Car, Valued Fairly</h3>
-              <p className="mt-3 flex-1 text-muted-foreground">Receive a transparent, market-leading valuation and trade in with total confidence.</p>
-              <Button asChild variant="luxury" className="mt-6 self-start"><Link to="/trade-in">Value My Car</Link></Button>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+
 
       {/* WHY US */}
       <section className="section-pad">
