@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { brands, vehicles } from "@/data/vehicles";
+import { useSiteData } from "@/hooks/use-site-data";
 import { Reveal, SectionHeading } from "@/components/ui/reveal";
 
 export const Route = createFileRoute("/brands/")({
