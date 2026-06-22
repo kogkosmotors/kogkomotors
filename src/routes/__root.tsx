@@ -12,7 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+
 import { Toaster } from "@/components/ui/sonner";
 import { SiteDataProvider } from "@/hooks/use-site-data";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -162,7 +162,6 @@ function RootComponent() {
             <Outlet />
           </main>
           <Footer />
-          <WhatsAppButton />
         </div>
         <Toaster position="top-center" />
       </SiteDataProvider>
