@@ -41,10 +41,29 @@ export function LeadForm({
     formState: { errors, isSubmitting },
   } = useForm<Values>({ resolver: zodResolver(schema) });
 
+  const submit = useServerFn(submitLead);
+
   const onSubmit = async (values: Values) => {
-    console.info("Lead request", { type, ...values, message: values.message ?? "", meta });
-    setDone(true);
-    toast.success("Request received — our team will contact you shortly.");
+    const metaText = Object.entries(meta)
+      .map(([k, v]) => `${k}: ${v}`)
+      .join(" | ");
+    const message = [values.message ?? "", metaText].filter(Boolean).join("\n");
+    try {
+      await submit({
+        data: {
+          type,
+          name: values.name,
+          email: values.email,
+          phone: values.phone,
+          message,
+        },
+      });
+      setDone(true);
+      toast.success("Request received — our team will contact you shortly.");
+    } catch (err) {
+      console.error("Lead submit failed", err);
+      toast.error("Something went wrong. Please try again or call us directly.");
+    }
   };
 
   if (done) {
