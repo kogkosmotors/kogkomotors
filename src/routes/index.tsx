@@ -6,6 +6,9 @@ import { VehicleCard } from "@/components/VehicleCard";
 import { Reveal, SectionHeading } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { useSiteData } from "@/hooks/use-site-data";
+import { assetUrl } from "@/lib/image-urls";
+
+const defaultHeroImage = assetUrl(heroImg.url);
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -14,7 +17,7 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Discover Cyprus's finest curated collection of luxury and performance vehicles. Bespoke finance, trade-in and concierge service at Kogko's Motors." },
       { property: "og:title", content: "Kogko's Motors — Luxury & Performance Vehicles" },
       { property: "og:description", content: "Cyprus's premier luxury vehicle dealership." },
-      { property: "og:image", content: heroImg.url },
+      { property: "og:image", content: defaultHeroImage },
       { property: "og:url", content: "/" },
     ],
     links: [{ rel: "canonical", href: "/" }],
@@ -32,6 +35,7 @@ const whyUs = [
 
 function Home() {
   const { config, vehicles, text, stats, reviews } = useSiteData();
+  const heroImage = config.heroImage || defaultHeroImage;
   const featured = vehicles.filter((v) => v.featured);
   const latest = [...vehicles].sort((a, b) => b.year - a.year).slice(0, 3);
   const brands = Array.from(new Set(vehicles.map((v) => v.make).filter(Boolean))).sort();
@@ -39,7 +43,7 @@ function Home() {
     <>
       {/* HERO */}
       <section className="relative flex min-h-[92vh] items-center overflow-hidden">
-        <img src={heroImg.url} alt="Luxury performance car at night" width={1920} height={1080} className="absolute inset-0 h-full w-full object-cover" />
+        <img src={heroImage} alt="Luxury performance car at night" width={1920} height={1080} className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/30" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
 

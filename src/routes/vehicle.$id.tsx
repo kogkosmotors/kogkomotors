@@ -1,5 +1,6 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Phone, Share2, ChevronLeft, Check, Gauge, Fuel, Settings2, Calendar, Cog, Zap, Palette, MapPin, CalendarCheck } from "lucide-react";
+import type { SyntheticEvent } from "react";
 import { formatPrice, formatMileage, getVehicle, type Vehicle } from "@/data/vehicles";
 import { useSiteData } from "@/hooks/use-site-data";
 import { VehicleCard } from "@/components/VehicleCard";
@@ -10,47 +11,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/vehicle/$id")({
-  loader: async ({ params }) => {
-    const vehicle = getVehicle(params.id);
-    if (!vehicle) throw notFound();
-    return { vehicle };
-  },
-  head: ({ loaderData }) => {
-    const v = loaderData?.vehicle;
-    if (!v) return { meta: [{ title: "Vehicle | Kogko's Motors" }] };
-    const title = `${v.year} ${v.make} ${v.model} — ${formatPrice(v.price)} | Kogko's Motors`;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: v.description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: v.description },
-        { property: "og:image", content: v.mainImage },
-        { property: "og:url", content: `/vehicle/${v.id}` },
-        { property: "og:type", content: "product" },
-      ],
-      links: [{ rel: "canonical", href: `/vehicle/${v.id}` }],
-      scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Car",
-            name: `${v.year} ${v.make} ${v.model}`,
-            brand: { "@type": "Brand", name: v.make },
-            model: v.model,
-            vehicleModelDate: v.year,
-            mileageFromOdometer: { "@type": "QuantitativeValue", value: v.mileage, unitCode: "KMT" },
-            fuelType: v.fuel,
-            vehicleTransmission: v.transmission,
-            color: v.exteriorColor,
-            vehicleIdentificationNumber: v.vin,
-            offers: { "@type": "Offer", price: v.price, priceCurrency: "EUR", availability: v.available ? "https://schema.org/InStock" : "https://schema.org/SoldOut" },
-          }),
-        },
-      ],
-    };
-  },
+  head: () => ({
+    meta: [
+      { title: "Vehicle | Kogko's Motors" },
+      { name: "description", content: "View vehicle details, specifications and enquiry options at Kogko's Motors." },
+      { property: "og:title", content: "Vehicle | Kogko's Motors" },
+      { property: "og:type", content: "product" },
+    ],
+  }),
   notFoundComponent: () => (
     <div className="mx-auto max-w-3xl px-4 py-24 text-center">
       <h1 className="font-display text-4xl">Vehicle not found</h1>
@@ -67,8 +35,25 @@ export const Route = createFileRoute("/vehicle/$id")({
 });
 
 function VehicleDetail() {
-  const { vehicle: v } = Route.useLoaderData();
+  const { id } = Route.useParams();
   const { config, vehicles, flag } = useSiteData();
+  const v = vehicles.find((vehicle) => vehicle.id === id) ?? getVehicle(id);
+
+  if (!v) {
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-24 text-center">
+        <h1 className="font-display text-4xl">Vehicle not found</h1>
+        <Button asChild variant="luxury" className="mt-6"><Link to="/inventory">Back to Inventory</Link></Button>
+      </div>
+    );
+  }
+
+  const handleImageError = (event: SyntheticEvent<HTMLImageElement>) => {
+    if (v.fallbackImage && event.currentTarget.src !== v.fallbackImage) {
+      event.currentTarget.src = v.fallbackImage;
+    }
+  };
+
   const related = vehicles
     .filter((x: Vehicle) => x.id !== v.id && (x.make === v.make || x.bodyType === v.bodyType))
     .slice(0, 3);
@@ -105,13 +90,13 @@ function VehicleDetail() {
         {/* Gallery */}
         <div>
           <div className="relative overflow-hidden rounded-2xl gold-border">
-            <img src={v.mainImage} alt={`${v.year} ${v.make} ${v.model}`} width={1280} height={896} className="aspect-[16/10] w-full object-cover" />
+            <img src={v.mainImage} alt={`${v.year} ${v.make} ${v.model}`} width={1280} height={896} onError={handleImageError} className="aspect-[16/10] w-full object-cover" />
             {v.featured && <Badge className="absolute left-4 top-4 bg-gold-gradient text-primary-foreground">Featured</Badge>}
           </div>
           {v.gallery.length > 1 && (
             <div className="mt-4 grid grid-cols-4 gap-3">
               {v.gallery.map((g: string, i: number) => (
-                <img key={i} src={g} alt={`${v.model} view ${i + 1}`} loading="lazy" className="aspect-square w-full rounded-lg object-cover gold-border" />
+                <img key={i} src={g} alt={`${v.model} view ${i + 1}`} loading="lazy" onError={handleImageError} className="aspect-square w-full rounded-lg object-cover gold-border" />
               ))}
             </div>
           )}

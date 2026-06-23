@@ -1,10 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { Gauge, Fuel, Settings2, Calendar } from "lucide-react";
+import type { SyntheticEvent } from "react";
 import { type Vehicle, formatPrice, formatMileage } from "@/data/vehicles";
 import { Badge } from "@/components/ui/badge";
 
 export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
-  const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
+  const handleImageError = (event: SyntheticEvent<HTMLImageElement>) => {
     if (vehicle.fallbackImage && event.currentTarget.src !== vehicle.fallbackImage) {
       event.currentTarget.src = vehicle.fallbackImage;
     }
