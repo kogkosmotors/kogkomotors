@@ -31,9 +31,17 @@ export const Route = createFileRoute("/brands/$brand")({
 
 function BrandPage() {
   const { brand: brandParam } = Route.useParams();
-  const { vehicles } = useSiteData();
+  const { vehicles, loading } = useSiteData();
   const brand = Array.from(new Set(vehicles.map((v) => v.make).filter(Boolean))).find((b) => slug(b) === brandParam);
   const cars = brand ? vehicles.filter((v) => v.make === brand) : [];
+
+  if (!brand && loading) {
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-24 text-center">
+        <h1 className="font-display text-4xl">Loading brand…</h1>
+      </div>
+    );
+  }
 
   if (!brand) {
     return (

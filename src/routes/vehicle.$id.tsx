@@ -36,8 +36,16 @@ export const Route = createFileRoute("/vehicle/$id")({
 
 function VehicleDetail() {
   const { id } = Route.useParams();
-  const { config, vehicles, flag } = useSiteData();
+  const { config, vehicles, flag, loading } = useSiteData();
   const v = vehicles.find((vehicle) => vehicle.id === id) ?? getVehicle(id);
+
+  if (!v && loading) {
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-24 text-center">
+        <h1 className="font-display text-4xl">Loading vehicle…</h1>
+      </div>
+    );
+  }
 
   if (!v) {
     return (
