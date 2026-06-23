@@ -7,6 +7,7 @@ import bentleyImg from "@/assets/cars/bentley.jpg.asset.json";
 import heroImg from "@/assets/cars/hero.jpg.asset.json";
 import { vehicles as fallbackVehicles, type Vehicle } from "@/data/vehicles";
 import { siteConfig } from "@/lib/site-config";
+import { assetUrl, imageUrl } from "@/lib/image-urls";
 import type { RawSheetData } from "@/lib/sheet-types";
 export type { RawSheetData } from "@/lib/sheet-types";
 
@@ -112,13 +113,13 @@ export function textOf(
 
 function fallbackImage(make: string): string {
   const m = make.toLowerCase();
-  if (m.includes("porsche")) return porscheImg.url;
-  if (m.includes("mercedes") || m.includes("maybach")) return mercedesImg.url;
-  if (m.includes("bmw")) return bmwImg.url;
-  if (m.includes("land rover") || m.includes("range")) return rangeImg.url;
-  if (m.includes("audi")) return audiImg.url;
-  if (m.includes("bentley")) return bentleyImg.url;
-  return heroImg.url;
+  if (m.includes("porsche")) return assetUrl(porscheImg.url);
+  if (m.includes("mercedes") || m.includes("maybach")) return assetUrl(mercedesImg.url);
+  if (m.includes("bmw")) return assetUrl(bmwImg.url);
+  if (m.includes("land rover") || m.includes("range")) return assetUrl(rangeImg.url);
+  if (m.includes("audi")) return assetUrl(audiImg.url);
+  if (m.includes("bentley")) return assetUrl(bentleyImg.url);
+  return assetUrl(heroImg.url);
 }
 
 function splitList(value?: string): string[] {
@@ -146,8 +147,9 @@ function parseVehicles(rows: string[][]): Vehicle[] {
     const model = col(row, "model");
     if (!make && !model) return acc;
 
-    const gallery = splitList(col(row, "image_url"));
-    const main = gallery[0] || fallbackImage(make);
+    const fallback = fallbackImage(make);
+    const gallery = splitList(col(row, "image_url")).map(imageUrl);
+    const main = gallery[0] || fallback;
     const id =
       col(row, "id") ||
       `${make}-${model}-${col(row, "year")}`.toLowerCase().replace(/\s+/g, "-");
@@ -172,6 +174,7 @@ function parseVehicles(rows: string[][]): Vehicle[] {
       features: splitList(col(row, "features")),
       gallery: gallery.length ? gallery : [main],
       mainImage: main,
+      fallbackImage: fallback,
       available:
         col(row, "available") === "" ? true : truthy(col(row, "available")),
       featured: truthy(col(row, "featured")),
@@ -199,6 +202,8 @@ export function buildSiteData(raw?: RawSheetData | null): SiteData {
     phoneHref: s("phone_href", siteConfig.phoneHref),
     whatsapp: s("whatsapp", siteConfig.whatsapp),
     email: s("email", siteConfig.email),
+    logoUrl: imageUrl(s("logo_url", siteConfig.logoUrl)),
+    heroImage: imageUrl(s("hero_image_url", siteConfig.heroImage)),
     address: s("address", siteConfig.address),
     mapQuery: s("map_query", siteConfig.mapQuery),
     hours: [

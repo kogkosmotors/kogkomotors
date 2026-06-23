@@ -91,7 +91,7 @@ function Inventory() {
       }
     });
     return list;
-  }, [q, brand, body, fuel, trans, price, year, sort]);
+  }, [vehicles, q, brand, body, fuel, trans, price, year, sort]);
 
   const Filters = (
     <div className="space-y-5">

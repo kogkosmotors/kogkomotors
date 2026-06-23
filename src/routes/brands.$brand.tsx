@@ -1,30 +1,19 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
-import { defaultSiteData } from "@/lib/site-data";
+import { useSiteData } from "@/hooks/use-site-data";
 import { VehicleCard } from "@/components/VehicleCard";
 import { Button } from "@/components/ui/button";
 
 const slug = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
 
 export const Route = createFileRoute("/brands/$brand")({
-  loader: async ({ params }) => {
-    const brands = Array.from(new Set(defaultSiteData.vehicles.map((v) => v.make).filter(Boolean)));
-    const brand = brands.find((b) => slug(b) === params.brand);
-    if (!brand) throw notFound();
-    return { brand, cars: defaultSiteData.vehicles.filter((v) => v.make === brand) };
-  },
-  head: ({ loaderData }) => {
-    const brand = loaderData?.brand ?? "Brand";
-    return {
-      meta: [
-        { title: `${brand} — Vehicles for Sale | Kogko's Motors` },
-        { name: "description", content: `Browse our collection of ${brand} vehicles available at Kogko's Motors, Cyprus's premier luxury dealership.` },
-        { property: "og:title", content: `${brand} | Kogko's Motors` },
-        { property: "og:url", content: `/brands/${slug(brand)}` },
-      ],
-      links: [{ rel: "canonical", href: `/brands/${slug(brand)}` }],
-    };
-  },
+  head: () => ({
+    meta: [
+      { title: "Brand Vehicles for Sale | Kogko's Motors" },
+      { name: "description", content: "Browse premium vehicles available at Kogko's Motors, Cyprus's premier luxury dealership." },
+      { property: "og:title", content: "Brand Vehicles | Kogko's Motors" },
+    ],
+  }),
   notFoundComponent: () => (
     <div className="mx-auto max-w-3xl px-4 py-24 text-center">
       <h1 className="font-display text-4xl">Brand not found</h1>
@@ -41,7 +30,28 @@ export const Route = createFileRoute("/brands/$brand")({
 });
 
 function BrandPage() {
-  const { brand, cars } = Route.useLoaderData();
+  const { brand: brandParam } = Route.useParams();
+  const { vehicles, loading } = useSiteData();
+  const brand = Array.from(new Set(vehicles.map((v) => v.make).filter(Boolean))).find((b) => slug(b) === brandParam);
+  const cars = brand ? vehicles.filter((v) => v.make === brand) : [];
+
+  if (!brand && loading) {
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-24 text-center">
+        <h1 className="font-display text-4xl">Loading brand…</h1>
+      </div>
+    );
+  }
+
+  if (!brand) {
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-24 text-center">
+        <h1 className="font-display text-4xl">Brand not found</h1>
+        <Button asChild variant="luxury" className="mt-6"><Link to="/brands">All Brands</Link></Button>
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:py-16">
       <Link to="/brands" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary">

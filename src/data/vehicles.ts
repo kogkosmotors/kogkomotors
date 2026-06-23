@@ -4,6 +4,7 @@ import bmwImg from "@/assets/cars/bmw.jpg.asset.json";
 import rangeImg from "@/assets/cars/range.jpg.asset.json";
 import audiImg from "@/assets/cars/audi.jpg.asset.json";
 import bentleyImg from "@/assets/cars/bentley.jpg.asset.json";
+import { assetUrl } from "@/lib/image-urls";
 
 export interface Vehicle {
   id: string;
@@ -25,12 +26,13 @@ export interface Vehicle {
   features: string[];
   gallery: string[];
   mainImage: string;
+  fallbackImage?: string;
   available: boolean;
   featured: boolean;
   location: string;
 }
 
-const img = (a: { url: string }) => a.url;
+const img = (a: { url: string }) => assetUrl(a.url);
 
 export const vehicles: Vehicle[] = [
   {

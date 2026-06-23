@@ -2,14 +2,18 @@ import { Link } from "@tanstack/react-router";
 import { Instagram, Facebook, Youtube, Phone, Mail, MapPin, Clock } from "lucide-react";
 import logo from "@/assets/kogkos-logo.png.asset.json";
 import { useSiteData } from "@/hooks/use-site-data";
+import { assetUrl } from "@/lib/image-urls";
+
+const defaultLogo = assetUrl(logo.url);
 
 export function Footer() {
   const { config, text } = useSiteData();
+  const logoSrc = config.logoUrl || defaultLogo;
   return (
     <footer className="border-t border-border bg-[#0a0a0a]">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <img src={logo.url} alt={config.name} className="mb-5 h-14 w-auto" width={300} height={120} />
+          <img src={logoSrc} alt={config.name} className="mb-5 h-14 w-auto" width={300} height={120} />
           <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">{text("footer_note", config.description)}</p>
           <div className="mt-5 flex gap-3">
             {config.socials.instagram && (

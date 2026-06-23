@@ -4,10 +4,14 @@ import { Menu, X, Phone } from "lucide-react";
 import logo from "@/assets/kogkos-logo.png.asset.json";
 import { useSiteData } from "@/hooks/use-site-data";
 import { Button } from "@/components/ui/button";
+import { assetUrl } from "@/lib/image-urls";
+
+const defaultLogo = assetUrl(logo.url);
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const { config, flag } = useSiteData();
+  const logoSrc = config.logoUrl || defaultLogo;
 
   const nav = [
     { to: "/", label: "Home", show: true },
@@ -21,7 +25,7 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link to="/" className="flex shrink-0 items-center" aria-label={`${config.name} home`}>
-          <img src={logo.url} alt={config.name} className="h-10 w-auto sm:h-12" width={300} height={120} />
+          <img src={logoSrc} alt={config.name} className="h-10 w-auto sm:h-12" width={300} height={120} />
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">
