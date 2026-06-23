@@ -4,7 +4,7 @@ export const siteConfig = {
    * Paste the ID from your sheet URL: docs.google.com/spreadsheets/d/<THIS_PART>/edit
    * The sheet must be shared as "Anyone with the link can view". Leave blank to use built-in defaults.
    */
-  sheetId: "",
+  sheetId: "11JTMGzYZScrL4nsDozLzHuZnwfdTlXI2Jwy1SSjJACU",
   name: "Kogko's Motors",
   tagline: "The Art of Automotive Excellence",
   description:
