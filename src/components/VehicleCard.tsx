@@ -4,6 +4,12 @@ import { type Vehicle, formatPrice, formatMileage } from "@/data/vehicles";
 import { Badge } from "@/components/ui/badge";
 
 export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
+  const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    if (vehicle.fallbackImage && event.currentTarget.src !== vehicle.fallbackImage) {
+      event.currentTarget.src = vehicle.fallbackImage;
+    }
+  };
+
   return (
     <Link
       to="/vehicle/$id"
@@ -17,6 +23,7 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
           loading="lazy"
           width={1280}
           height={896}
+          onError={handleImageError}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />

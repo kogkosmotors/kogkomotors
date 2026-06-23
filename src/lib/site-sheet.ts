@@ -47,7 +47,7 @@ function parseCsv(text: string): string[][] {
 
 async function fetchTab(sheetId: string, tab: string): Promise<string[][]> {
   try {
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`;
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}&cacheBust=${Date.now()}`;
     const res = await fetch(url);
     if (!res.ok) return [];
     return parseCsv(await res.text());

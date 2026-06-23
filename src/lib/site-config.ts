@@ -13,6 +13,8 @@ export const siteConfig = {
   phoneHref: "tel:+35799592202",
   whatsapp: "35799592202",
   email: "sales@kogkosmotors.com",
+  logoUrl: "",
+  heroImage: "",
   address: "Strovolos, Nicosia, Cyprus",
   mapQuery: "Strovolos, Nicosia, Cyprus",
   hours: [
