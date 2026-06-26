@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
 });
 
 
-const whyUsDefaults = [
+const whyUs = [
   { icon: Award, title: "Curated Excellence", text: "Every vehicle is hand-selected and inspected to the highest standard." },
   { icon: ShieldCheck, title: "Total Transparency", text: "Full service history and verified provenance on every car." },
   { icon: Banknote, title: "Bespoke Finance", text: "Tailored finance packages designed around your lifestyle." },
@@ -34,16 +34,11 @@ const whyUsDefaults = [
 ];
 
 function Home() {
-  const { config, vehicles, text, flag, stats, reviews } = useSiteData();
+  const { config, vehicles, text, stats, reviews } = useSiteData();
   const heroImage = config.heroImage || defaultHeroImage;
   const featured = vehicles.filter((v) => v.featured);
   const latest = [...vehicles].sort((a, b) => b.year - a.year).slice(0, 3);
   const brands = Array.from(new Set(vehicles.map((v) => v.make).filter(Boolean))).sort();
-  const whyUs = whyUsDefaults.map((w, i) => ({
-    icon: w.icon,
-    title: text(`why${i + 1}_title`, w.title),
-    text: text(`why${i + 1}_text`, w.text),
-  }));
   return (
     <>
       {/* HERO */}
@@ -57,24 +52,24 @@ function Home() {
             {text("hero_eyebrow", config.tagline)}
           </motion.p>
           <motion.h1 initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="mt-5 max-w-3xl font-display text-5xl leading-[1.05] sm:text-6xl md:text-7xl">
-            {text("hero_title", "Drive the")} <span className="text-gold-gradient">{text("hero_title_highlight", "Extraordinary")}</span>
+            Drive the <span className="text-gold-gradient">Extraordinary</span>
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="mt-6 max-w-xl text-lg text-secondary-foreground/85">
             {text("hero_subtext", "Cyprus's premier destination for luxury and performance automobiles. A curated collection, an uncompromising standard.")}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }} className="mt-9 flex flex-wrap gap-4">
             <Button asChild variant="luxury" size="xl">
-              <Link to="/inventory">{text("hero_cta_primary", "Browse Vehicles")} <ArrowRight className="h-4 w-4" /></Link>
+              <Link to="/inventory">Browse Vehicles <ArrowRight className="h-4 w-4" /></Link>
             </Button>
             <Button asChild variant="outlineGold" size="xl">
-              <Link to="/contact">{text("hero_cta_secondary", "Contact Us")}</Link>
+              <Link to="/contact">Contact Us</Link>
             </Button>
           </motion.div>
         </div>
       </section>
 
       {/* STATS */}
-      {flag("show_stats", true) && stats.length > 0 && (
+      {stats.length > 0 && (
       <section className="border-y border-border bg-[#0a0a0a]">
         <div className={`mx-auto grid max-w-7xl divide-x divide-border px-4 sm:px-6 ${stats.length >= 4 ? "grid-cols-2 md:grid-cols-4" : stats.length === 3 ? "grid-cols-3" : stats.length === 2 ? "grid-cols-2" : "grid-cols-1"}`}>
           {stats.map((s) => (
@@ -88,12 +83,11 @@ function Home() {
       )}
 
       {/* FEATURED */}
-      {flag("show_featured", true) && (
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="flex flex-wrap items-end justify-between gap-4">
-            <Reveal><SectionHeading eyebrow={text("featured_eyebrow", "The Collection")} title={text("featured_title", "Featured Vehicles")} subtitle={text("featured_subtitle", "Hand-picked masterpieces from the world's most revered marques.")} /></Reveal>
-            <Button asChild variant="outlineGold"><Link to="/inventory">{text("featured_cta", "View All")}</Link></Button>
+            <Reveal><SectionHeading eyebrow="The Collection" title="Featured Vehicles" subtitle="Hand-picked masterpieces from the world's most revered marques." /></Reveal>
+            <Button asChild variant="outlineGold"><Link to="/inventory">View All</Link></Button>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((v, i) => (
@@ -102,13 +96,11 @@ function Home() {
           </div>
         </div>
       </section>
-      )}
 
       {/* LATEST */}
-      {flag("show_latest", true) && (
       <section className="section-pad border-t border-border bg-[#0a0a0a]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <Reveal><SectionHeading eyebrow={text("latest_eyebrow", "Just Arrived")} title={text("latest_title", "Latest Arrivals")} center /></Reveal>
+          <Reveal><SectionHeading eyebrow="Just Arrived" title="Latest Arrivals" center /></Reveal>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {latest.map((v, i) => (
               <Reveal key={v.id} delay={i * 0.08}><VehicleCard vehicle={v} /></Reveal>
@@ -116,13 +108,11 @@ function Home() {
           </div>
         </div>
       </section>
-      )}
 
       {/* BRANDS */}
-      {flag("show_brands_section", true) && (
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <Reveal><SectionHeading eyebrow={text("brands_eyebrow", "Marques")} title={text("brands_title", "Premium Brands")} center subtitle={text("brands_subtitle", "We specialise in the most prestigious names in motoring.")} /></Reveal>
+          <Reveal><SectionHeading eyebrow="Marques" title="Premium Brands" center subtitle="We specialise in the most prestigious names in motoring." /></Reveal>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             {brands.map((b) => (
               <Link key={b} to="/brands/$brand" params={{ brand: b.toLowerCase().replace(/\s+/g, "-") }} className="glass rounded-full px-6 py-3 font-display text-lg text-foreground transition-colors hover:text-primary">
@@ -132,13 +122,13 @@ function Home() {
           </div>
         </div>
       </section>
-      )}
+
+
 
       {/* WHY US */}
-      {flag("show_why_us", true) && (
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <Reveal><SectionHeading eyebrow={text("why_eyebrow", "The Kogko's Standard")} title={text("why_title", "Why Choose Us")} center /></Reveal>
+          <Reveal><SectionHeading eyebrow="The Kogko's Standard" title="Why Choose Us" center /></Reveal>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {whyUs.map((w, i) => (
               <Reveal key={w.title} delay={i * 0.08}>
@@ -152,13 +142,12 @@ function Home() {
           </div>
         </div>
       </section>
-      )}
 
       {/* TESTIMONIALS */}
-      {flag("show_testimonials", true) && reviews.length > 0 && (
+      {reviews.length > 0 && (
       <section className="section-pad border-t border-border bg-[#0a0a0a]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <Reveal><SectionHeading eyebrow={text("reviews_eyebrow", "Client Voices")} title={text("reviews_title", "What Our Clients Say")} center /></Reveal>
+          <Reveal><SectionHeading eyebrow="Client Voices" title="What Our Clients Say" center /></Reveal>
           <div className="mt-10 grid gap-6 lg:grid-cols-3">
             {reviews.map((t, i) => (
               <Reveal key={`${t.name}-${i}`} delay={i * 0.08}>
@@ -176,13 +165,12 @@ function Home() {
       )}
 
       {/* CONTACT CTA + MAP */}
-      {flag("show_visit_section", true) && (
       <section className="section-pad">
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2">
           <Reveal>
-            <SectionHeading eyebrow={text("visit_eyebrow", "Visit Us")} title={text("visit_title", "Experience Kogko's Motors")} subtitle={text("visit_subtitle", "Step into our showroom in the heart of Nicosia, or arrange a private viewing at your convenience.")} />
+            <SectionHeading eyebrow="Visit Us" title="Experience Kogko's Motors" subtitle="Step into our showroom in the heart of Nicosia, or arrange a private viewing at your convenience." />
             <div className="mt-7 flex flex-wrap gap-4">
-              <Button asChild variant="luxury" size="lg"><Link to="/contact">{text("visit_cta", "Contact Us")}</Link></Button>
+              <Button asChild variant="luxury" size="lg"><Link to="/contact">Contact Us</Link></Button>
               <Button asChild variant="outlineGold" size="lg"><a href={config.phoneHref}>Call {config.phone}</a></Button>
             </div>
           </Reveal>
@@ -199,7 +187,6 @@ function Home() {
           </Reveal>
         </div>
       </section>
-      )}
     </>
   );
 }

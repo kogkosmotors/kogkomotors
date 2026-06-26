@@ -14,9 +14,6 @@ export const siteConfig = {
   whatsapp: "35799592202",
   email: "sales@kogkosmotors.com",
   logoUrl: "",
-  /** Header/footer logo heights in pixels — editable from the Settings tab. */
-  logoHeaderHeight: 48,
-  logoFooterHeight: 56,
   heroImage: "",
   address: "Strovolos, Nicosia, Cyprus",
   mapQuery: "Strovolos, Nicosia, Cyprus",

@@ -19,15 +19,14 @@ export const Route = createFileRoute("/contact")({
 });
 
 function Contact() {
-  const { config: siteConfig, text } = useSiteData();
+  const { config: siteConfig } = useSiteData();
   return (
     <>
       <section className="border-b border-border bg-[#0a0a0a] py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <Reveal><SectionHeading eyebrow={text("contact_eyebrow", "Get In Touch")} title={text("contact_title", "Contact Kogko's Motors")} subtitle={text("contact_subtitle", "We'd be delighted to assist you. Reach out or visit our showroom in the heart of Nicosia.")} /></Reveal>
+          <Reveal><SectionHeading eyebrow="Get In Touch" title="Contact Kogko's Motors" subtitle="We'd be delighted to assist you. Reach out or visit our showroom in the heart of Nicosia." /></Reveal>
         </div>
       </section>
-
 
       <section className="section-pad">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-2">
@@ -64,7 +63,7 @@ function Contact() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <LeadForm type="contact" title={text("contact_form_title", "Send Us a Message")} subtitle={text("contact_form_subtitle", "Fill in the form and a specialist will respond shortly.")} cta={text("contact_form_cta", "Send Message")} />
+            <LeadForm type="contact" title="Send Us a Message" subtitle="Fill in the form and a specialist will respond shortly." cta="Send Message" />
           </Reveal>
         </div>
       </section>

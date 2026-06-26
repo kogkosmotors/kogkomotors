@@ -192,12 +192,6 @@ export function buildSiteData(raw?: RawSheetData | null): SiteData {
   const sections = raw?.sections ?? {};
   const s = (key: string, fallback: string) =>
     settings[key] && settings[key].trim() ? settings[key] : fallback;
-  const n = (key: string, fallback: number) => {
-    const raw = settings[key];
-    if (raw === undefined || raw.trim() === "") return fallback;
-    const parsed = Number(raw.replace(/[^0-9.]/g, ""));
-    return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
-  };
 
   const config: SiteConfigShape = {
     sheetId: siteConfig.sheetId,
@@ -209,15 +203,13 @@ export function buildSiteData(raw?: RawSheetData | null): SiteData {
     whatsapp: s("whatsapp", siteConfig.whatsapp),
     email: s("email", siteConfig.email),
     logoUrl: imageUrl(s("logo_url", siteConfig.logoUrl)),
-    logoHeaderHeight: n("logo_header_height", siteConfig.logoHeaderHeight),
-    logoFooterHeight: n("logo_footer_height", siteConfig.logoFooterHeight),
     heroImage: imageUrl(s("hero_image_url", siteConfig.heroImage)),
     address: s("address", siteConfig.address),
     mapQuery: s("map_query", siteConfig.mapQuery),
     hours: [
-      { day: s("hours_day1_label", siteConfig.hours[0].day), time: s("hours_mon_fri", siteConfig.hours[0].time) },
-      { day: s("hours_day2_label", siteConfig.hours[1].day), time: s("hours_sat", siteConfig.hours[1].time) },
-      { day: s("hours_day3_label", siteConfig.hours[2].day), time: s("hours_sun", siteConfig.hours[2].time) },
+      { day: "Monday – Friday", time: s("hours_mon_fri", siteConfig.hours[0].time) },
+      { day: "Saturday", time: s("hours_sat", siteConfig.hours[1].time) },
+      { day: "Sunday", time: s("hours_sun", siteConfig.hours[2].time) },
     ],
     socials: {
       instagram: s("instagram", siteConfig.socials.instagram),

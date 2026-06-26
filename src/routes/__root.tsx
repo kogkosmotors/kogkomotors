@@ -14,7 +14,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
 import { Toaster } from "@/components/ui/sonner";
-import { CookieConsent } from "@/components/CookieConsent";
 import { SiteDataProvider } from "@/hooks/use-site-data";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -167,8 +166,6 @@ function RootComponent() {
           <Footer />
         </div>
         <Toaster position="top-center" />
-        <CookieConsent />
-
       </SiteDataProvider>
     </QueryClientProvider>
   );
