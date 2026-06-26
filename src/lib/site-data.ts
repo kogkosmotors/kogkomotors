@@ -192,6 +192,12 @@ export function buildSiteData(raw?: RawSheetData | null): SiteData {
   const sections = raw?.sections ?? {};
   const s = (key: string, fallback: string) =>
     settings[key] && settings[key].trim() ? settings[key] : fallback;
+  const n = (key: string, fallback: number) => {
+    const raw = settings[key];
+    if (raw === undefined || raw.trim() === "") return fallback;
+    const parsed = Number(raw.replace(/[^0-9.]/g, ""));
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+  };
 
   const config: SiteConfigShape = {
     sheetId: siteConfig.sheetId,
