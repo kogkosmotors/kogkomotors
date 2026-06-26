@@ -64,7 +64,7 @@ function Contact() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <LeadForm type="contact" title="Send Us a Message" subtitle="Fill in the form and a specialist will respond shortly." cta="Send Message" />
+            <LeadForm type="contact" title={text("contact_form_title", "Send Us a Message")} subtitle={text("contact_form_subtitle", "Fill in the form and a specialist will respond shortly.")} cta={text("contact_form_cta", "Send Message")} />
           </Reveal>
         </div>
       </section>
