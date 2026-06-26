@@ -10,15 +10,59 @@ import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
+const SITE_URL = "https://kogkomotors.lovable.app";
+
 export const Route = createFileRoute("/vehicle/$id")({
-  head: () => ({
-    meta: [
-      { title: "Vehicle | Kogko's Motors" },
-      { name: "description", content: "View vehicle details, specifications and enquiry options at Kogko's Motors." },
-      { property: "og:title", content: "Vehicle | Kogko's Motors" },
-      { property: "og:type", content: "product" },
-    ],
-  }),
+  loader: ({ params }) => getVehicle(params.id) ?? null,
+  head: ({ params, loaderData }) => {
+    const v = loaderData;
+    const title = v ? `${v.year} ${v.make} ${v.model} | Kogko's Motors` : "Vehicle | Kogko's Motors";
+    const description = v
+      ? v.description
+      : "View vehicle details, specifications and enquiry options at Kogko's Motors.";
+    const url = `${SITE_URL}/vehicle/${params.id}`;
+    const image = v?.mainImage;
+
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "product" },
+        { property: "og:url", content: url },
+        ...(image ? [{ property: "og:image", content: image }] : []),
+        ...(image ? [{ name: "twitter:image", content: image }] : []),
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: v
+        ? [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Product",
+                name: `${v.year} ${v.make} ${v.model}`,
+                image: v.mainImage,
+                description: v.description,
+                sku: v.vin,
+                vehicleIdentificationNumber: v.vin,
+                brand: { "@type": "Brand", name: v.make },
+                offers: {
+                  "@type": "Offer",
+                  price: v.price,
+                  priceCurrency: "EUR",
+                  availability: v.available
+                    ? "https://schema.org/InStock"
+                    : "https://schema.org/OutOfStock",
+                  url,
+                },
+              }),
+            },
+          ]
+        : [],
+    };
+  },
   notFoundComponent: () => (
     <div className="mx-auto max-w-3xl px-4 py-24 text-center">
       <h1 className="font-display text-4xl">Vehicle not found</h1>
