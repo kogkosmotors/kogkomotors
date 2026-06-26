@@ -10,7 +10,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-const SITE_URL = "https://kogkomotors.lovable.app";
+const SITE_URL = "https://www.kogkosmotors.com";
 
 export const Route = createFileRoute("/vehicle/$id")({
   loader: ({ params }) => getVehicle(params.id) ?? null,

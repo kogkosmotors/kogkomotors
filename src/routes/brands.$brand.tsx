@@ -14,7 +14,7 @@ export const Route = createFileRoute("/brands/$brand")({
       .join(" ");
     const title = `${name} Vehicles for Sale | Kogko's Motors`;
     const description = `Browse ${name} vehicles available at Kogko's Motors, Cyprus's premier luxury dealership.`;
-    const url = `https://kogkomotors.lovable.app/brands/${params.brand}`;
+    const url = `https://www.kogkosmotors.com/brands/${params.brand}`;
     return {
       meta: [
         { title },
