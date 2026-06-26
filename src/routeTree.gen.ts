@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SitemapRouteImport } from './routes/sitemap'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as InventoryRouteImport } from './routes/inventory'
@@ -25,6 +26,11 @@ import { Route as BrandsBrandRouteImport } from './routes/brands.$brand'
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapRoute = SitemapRouteImport.update({
@@ -92,6 +98,7 @@ export interface FileRoutesByFullPath {
   '/inventory': typeof InventoryRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap': typeof SitemapRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/inventory': typeof InventoryRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap': typeof SitemapRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/inventory': typeof InventoryRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap': typeof SitemapRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/inventory'
     | '/privacy'
     | '/sitemap'
+    | '/sitemap.xml'
     | '/terms'
     | '/brands/$brand'
     | '/vehicle/$id'
@@ -151,6 +161,7 @@ export interface FileRouteTypes {
     | '/inventory'
     | '/privacy'
     | '/sitemap'
+    | '/sitemap.xml'
     | '/terms'
     | '/brands/$brand'
     | '/vehicle/$id'
@@ -165,6 +176,7 @@ export interface FileRouteTypes {
     | '/inventory'
     | '/privacy'
     | '/sitemap'
+    | '/sitemap.xml'
     | '/terms'
     | '/brands/$brand'
     | '/vehicle/$id'
@@ -180,6 +192,7 @@ export interface RootRouteChildren {
   InventoryRoute: typeof InventoryRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapRoute: typeof SitemapRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   BrandsBrandRoute: typeof BrandsBrandRoute
   VehicleIdRoute: typeof VehicleIdRoute
@@ -193,6 +206,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap': {
@@ -284,6 +304,7 @@ const rootRouteChildren: RootRouteChildren = {
   InventoryRoute: InventoryRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapRoute: SitemapRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   BrandsBrandRoute: BrandsBrandRoute,
   VehicleIdRoute: VehicleIdRoute,
