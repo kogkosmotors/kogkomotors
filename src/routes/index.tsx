@@ -20,7 +20,10 @@ export const Route = createFileRoute("/")({
       { property: "og:image", content: defaultHeroImage },
       { property: "og:url", content: "/" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [
+      { rel: "canonical", href: "/" },
+      { rel: "preload", as: "image", href: defaultHeroImage, fetchpriority: "high" },
+    ],
   }),
   component: Home,
 });
@@ -48,7 +51,7 @@ function Home() {
     <>
       {/* HERO */}
       <section className="relative flex min-h-[92vh] items-center overflow-hidden">
-        <img src={heroImage} alt="Luxury performance car at night" width={1920} height={1080} className="absolute inset-0 h-full w-full object-cover" />
+        <img src={heroImage} alt="Luxury performance car at night" width={1920} height={1080} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/30" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
 

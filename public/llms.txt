@@ -1,0 +1,18 @@
+# Kogko's Motors
+
+> Cyprus's premier luxury vehicle dealership. A curated collection of premium and performance automobiles with bespoke finance and trade-in services.
+
+## Pages
+
+- [Home](/): Featured luxury and performance vehicles, dealership highlights.
+- [Inventory](/inventory): Browse the full collection of available vehicles.
+- [Brands](/brands): Explore vehicles by manufacturer.
+- [About](/about): The story and values behind Kogko's Motors.
+- [Contact](/contact): Get in touch, location, and opening hours.
+- [FAQ](/faq): Answers to common questions about buying, finance, and trade-ins.
+
+## Optional
+
+- [Privacy Policy](/privacy): How we handle personal data.
+- [Terms & Conditions](/terms): Terms governing use of the site and services.
+- [Cookie Policy](/cookies): How we use cookies.
