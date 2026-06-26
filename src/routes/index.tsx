@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
 });
 
 
-const whyUs = [
+const whyUsDefaults = [
   { icon: Award, title: "Curated Excellence", text: "Every vehicle is hand-selected and inspected to the highest standard." },
   { icon: ShieldCheck, title: "Total Transparency", text: "Full service history and verified provenance on every car." },
   { icon: Banknote, title: "Bespoke Finance", text: "Tailored finance packages designed around your lifestyle." },
@@ -34,11 +34,16 @@ const whyUs = [
 ];
 
 function Home() {
-  const { config, vehicles, text, stats, reviews } = useSiteData();
+  const { config, vehicles, text, flag, stats, reviews } = useSiteData();
   const heroImage = config.heroImage || defaultHeroImage;
   const featured = vehicles.filter((v) => v.featured);
   const latest = [...vehicles].sort((a, b) => b.year - a.year).slice(0, 3);
   const brands = Array.from(new Set(vehicles.map((v) => v.make).filter(Boolean))).sort();
+  const whyUs = whyUsDefaults.map((w, i) => ({
+    icon: w.icon,
+    title: text(`why${i + 1}_title`, w.title),
+    text: text(`why${i + 1}_text`, w.text),
+  }));
   return (
     <>
       {/* HERO */}
