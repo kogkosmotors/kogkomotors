@@ -13,7 +13,7 @@ export function Footer() {
     <footer className="border-t border-border bg-[#0a0a0a]">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <img src={logoSrc} alt={config.name} className="mb-5 h-14 w-auto" width={300} height={120} />
+          <img src={logoSrc} alt={config.name} className="mb-5 w-auto" style={{ height: config.logoFooterHeight }} width={300} height={120} />
           <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">{text("footer_note", config.description)}</p>
           <div className="mt-5 flex gap-3">
             {config.socials.instagram && (
