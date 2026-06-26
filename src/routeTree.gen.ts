@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SitemapRouteImport } from './routes/sitemap'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as InventoryRouteImport } from './routes/inventory'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -24,6 +25,11 @@ import { Route as BrandsBrandRouteImport } from './routes/brands.$brand'
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapRoute = SitemapRouteImport.update({
+  id: '/sitemap',
+  path: '/sitemap',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/inventory': typeof InventoryRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap': typeof SitemapRoute
   '/terms': typeof TermsRoute
   '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
@@ -98,6 +105,7 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/inventory': typeof InventoryRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap': typeof SitemapRoute
   '/terms': typeof TermsRoute
   '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
@@ -112,6 +120,7 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/inventory': typeof InventoryRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap': typeof SitemapRoute
   '/terms': typeof TermsRoute
   '/brands/$brand': typeof BrandsBrandRoute
   '/vehicle/$id': typeof VehicleIdRoute
@@ -127,6 +136,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/inventory'
     | '/privacy'
+    | '/sitemap'
     | '/terms'
     | '/brands/$brand'
     | '/vehicle/$id'
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/inventory'
     | '/privacy'
+    | '/sitemap'
     | '/terms'
     | '/brands/$brand'
     | '/vehicle/$id'
@@ -153,6 +164,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/inventory'
     | '/privacy'
+    | '/sitemap'
     | '/terms'
     | '/brands/$brand'
     | '/vehicle/$id'
@@ -167,6 +179,7 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   InventoryRoute: typeof InventoryRoute
   PrivacyRoute: typeof PrivacyRoute
+  SitemapRoute: typeof SitemapRoute
   TermsRoute: typeof TermsRoute
   BrandsBrandRoute: typeof BrandsBrandRoute
   VehicleIdRoute: typeof VehicleIdRoute
@@ -180,6 +193,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap': {
+      id: '/sitemap'
+      path: '/sitemap'
+      fullPath: '/sitemap'
+      preLoaderRoute: typeof SitemapRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -263,6 +283,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   InventoryRoute: InventoryRoute,
   PrivacyRoute: PrivacyRoute,
+  SitemapRoute: SitemapRoute,
   TermsRoute: TermsRoute,
   BrandsBrandRoute: BrandsBrandRoute,
   VehicleIdRoute: VehicleIdRoute,
@@ -271,3 +292,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
