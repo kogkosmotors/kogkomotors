@@ -167,6 +167,8 @@ function RootComponent() {
           <Footer />
         </div>
         <Toaster position="top-center" />
+        <CookieConsent />
+
       </SiteDataProvider>
     </QueryClientProvider>
   );
