@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Award, Gem, HeartHandshake, Target } from "lucide-react";
 import { Reveal, SectionHeading } from "@/components/ui/reveal";
+import { useSiteData } from "@/hooks/use-site-data";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -15,7 +16,7 @@ export const Route = createFileRoute("/about")({
   component: About,
 });
 
-const values = [
+const valueDefaults = [
   { icon: Gem, title: "Excellence", text: "We accept nothing less than perfection in every vehicle and every interaction." },
   { icon: HeartHandshake, title: "Integrity", text: "Honest dealings, transparent pricing and lasting relationships." },
   { icon: Target, title: "Passion", text: "A genuine love of fine automobiles drives everything we do." },
@@ -23,27 +24,34 @@ const values = [
 ];
 
 function About() {
+  const { text, flag } = useSiteData();
+  const values = valueDefaults.map((v, i) => ({
+    icon: v.icon,
+    title: text(`value${i + 1}_title`, v.title),
+    text: text(`value${i + 1}_text`, v.text),
+  }));
   return (
     <>
       <section className="border-b border-border bg-[#0a0a0a] py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <Reveal><SectionHeading eyebrow="Our Story" title="The Art of Automotive Excellence" subtitle="For over fifteen years, Kogko's Motors has been Cyprus's trusted destination for the world's finest automobiles." /></Reveal>
+          <Reveal><SectionHeading eyebrow={text("about_eyebrow", "Our Story")} title={text("about_title", "The Art of Automotive Excellence")} subtitle={text("about_subtitle", "For over fifteen years, Kogko's Motors has been Cyprus's trusted destination for the world's finest automobiles.")} /></Reveal>
         </div>
       </section>
 
       <section className="section-pad">
         <div className="mx-auto max-w-3xl px-4 text-lg leading-relaxed text-secondary-foreground/90 sm:px-6">
           <Reveal>
-            <p>Founded on a simple belief — that buying an extraordinary car should be an extraordinary experience — Kogko's Motors has grown into one of Cyprus's most respected luxury dealerships.</p>
-            <p className="mt-5">Every vehicle in our collection is hand-selected, meticulously inspected, and presented with full transparency. From the moment you step into our Nicosia showroom to the day you drive away, a dedicated specialist ensures every detail is flawless.</p>
-            <p className="mt-5">We don't just sell cars. We curate experiences, build relationships, and deliver a standard of service worthy of the marques we represent.</p>
+            <p>{text("about_para1", "Founded on a simple belief — that buying an extraordinary car should be an extraordinary experience — Kogko's Motors has grown into one of Cyprus's most respected luxury dealerships.")}</p>
+            <p className="mt-5">{text("about_para2", "Every vehicle in our collection is hand-selected, meticulously inspected, and presented with full transparency. From the moment you step into our Nicosia showroom to the day you drive away, a dedicated specialist ensures every detail is flawless.")}</p>
+            <p className="mt-5">{text("about_para3", "We don't just sell cars. We curate experiences, build relationships, and deliver a standard of service worthy of the marques we represent.")}</p>
           </Reveal>
         </div>
       </section>
 
+      {flag("show_about_values", true) && (
       <section className="section-pad border-t border-border bg-[#0a0a0a]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <Reveal><SectionHeading eyebrow="What We Stand For" title="Our Values" center /></Reveal>
+          <Reveal><SectionHeading eyebrow={text("values_eyebrow", "What We Stand For")} title={text("values_title", "Our Values")} center /></Reveal>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {values.map((v, i) => (
               <Reveal key={v.title} delay={i * 0.08}>
@@ -57,6 +65,7 @@ function About() {
           </div>
         </div>
       </section>
+      )}
     </>
   );
 }
