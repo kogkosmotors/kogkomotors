@@ -18,6 +18,7 @@ export const Route = createFileRoute("/sitemap")({
   component: SitemapPage,
 });
 
+
 const slug = (value: string) => value.toLowerCase().replace(/\s+/g, "-");
 
 const mainPages = [
