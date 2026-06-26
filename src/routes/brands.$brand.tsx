@@ -7,13 +7,25 @@ import { Button } from "@/components/ui/button";
 const slug = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
 
 export const Route = createFileRoute("/brands/$brand")({
-  head: () => ({
-    meta: [
-      { title: "Brand Vehicles for Sale | Kogko's Motors" },
-      { name: "description", content: "Browse premium vehicles available at Kogko's Motors, Cyprus's premier luxury dealership." },
-      { property: "og:title", content: "Brand Vehicles | Kogko's Motors" },
-    ],
-  }),
+  head: ({ params }) => {
+    const name = params.brand
+      .split("-")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
+    const title = `${name} Vehicles for Sale | Kogko's Motors`;
+    const description = `Browse ${name} vehicles available at Kogko's Motors, Cyprus's premier luxury dealership.`;
+    const url = `https://kogkomotors.lovable.app/brands/${params.brand}`;
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
   notFoundComponent: () => (
     <div className="mx-auto max-w-3xl px-4 py-24 text-center">
       <h1 className="font-display text-4xl">Brand not found</h1>
