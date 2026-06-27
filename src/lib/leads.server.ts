@@ -1,6 +1,5 @@
-const GATEWAY_URL = "https://connector-gateway.lovable.dev/google_sheets/v4";
-const SPREADSHEET_ID = "11JTMGzYZScrL4nsDozLzHuZnwfdTlXI2Jwy1SSjJACU";
-const LEADS_RANGE = "Leads!A:F";
+const APPS_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbxVtpLTracGOEA6xjF-Gmq1MQPrV9L9Kh9MsPSpD3Yyzvspxb6UTZU7Ox54PYBgqV3sMw/exec";
 
 export interface LeadInput {
   type: string;
@@ -10,35 +9,21 @@ export interface LeadInput {
   message: string;
 }
 
-/** Append a lead row to the Google Sheet via the Lovable connector gateway. */
+/** Append a lead row to the Google Sheet via the public Apps Script Web App. */
 export async function appendLead(lead: LeadInput): Promise<void> {
-  const lovableKey = process.env.LOVABLE_API_KEY;
-  const sheetsKey = process.env.GOOGLE_SHEETS_API_KEY;
-  if (!lovableKey || !sheetsKey) {
-    throw new Error("Google Sheets connector is not configured.");
-  }
+  const params = new URLSearchParams({
+    type: lead.type,
+    name: lead.name,
+    email: lead.email,
+    phone: lead.phone,
+    message: lead.message,
+  });
 
-  const url = `${GATEWAY_URL}/spreadsheets/${SPREADSHEET_ID}/values/${LEADS_RANGE}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`;
-
-  const res = await fetch(url, {
+  const res = await fetch(APPS_SCRIPT_URL, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${lovableKey}`,
-      "X-Connection-Api-Key": sheetsKey,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      values: [
-        [
-          new Date().toISOString(),
-          lead.type,
-          lead.name,
-          lead.email,
-          lead.phone,
-          lead.message,
-        ],
-      ],
-    }),
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: params.toString(),
+    redirect: "follow",
   });
 
   if (!res.ok) {
