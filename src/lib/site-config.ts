@@ -15,7 +15,7 @@ export const siteConfig = {
   email: "sales@kogkosmotors.com",
   logoUrl: "",
   /** Header/footer logo heights in pixels — editable from the Settings tab. */
-  logoHeaderHeight: 64,
+  logoHeaderHeight: 80,
   logoFooterHeight: 64,
   heroImage: "",
   address: "Strovolos, Nicosia, Cyprus",
