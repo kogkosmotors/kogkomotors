@@ -3,6 +3,7 @@ import { Instagram, Facebook, Youtube, Phone, Mail, MapPin, Clock } from "lucide
 import logo from "@/assets/kogkos-logo.png.asset.json";
 import { useSiteData } from "@/hooks/use-site-data";
 import { assetUrl } from "@/lib/image-urls";
+import { openCookiePreferences } from "@/lib/cookie-consent";
 
 const defaultLogo = assetUrl(logo.url);
 
@@ -78,9 +79,9 @@ export function Footer() {
           <p>© {new Date().getFullYear()} {config.name}. All rights reserved.</p>
           <div className="flex gap-5">
             <Link to="/privacy" className="hover:text-primary">Privacy</Link>
-            <Link to="/privacy" className="hover:text-primary">Privacy</Link>
             <Link to="/terms" className="hover:text-primary">Terms</Link>
             <Link to="/cookies" className="hover:text-primary">Cookies</Link>
+            <button type="button" onClick={openCookiePreferences} className="hover:text-primary">Cookie settings</button>
           </div>
         </div>
       </div>
