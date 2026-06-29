@@ -3,6 +3,7 @@ import { Instagram, Facebook, Youtube, Phone, Mail, MapPin, Clock } from "lucide
 import logo from "@/assets/kogkos-logo.png.asset.json";
 import { useSiteData } from "@/hooks/use-site-data";
 import { assetUrl } from "@/lib/image-urls";
+import { openCookiePreferences } from "@/lib/cookie-consent";
 
 const defaultLogo = assetUrl(logo.url);
 
