@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 import { CheckCircle2 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useServerFn } from "@tanstack/react-start";
 import { submitLead } from "@/lib/leads.functions";
 
@@ -16,6 +18,9 @@ const schema = z.object({
   email: z.string().trim().email("Enter a valid email").max(255),
   phone: z.string().trim().min(5, "Enter a valid phone").max(40),
   message: z.string().trim().max(2000).optional(),
+  consent: z.literal(true, {
+    errorMap: () => ({ message: "Please agree to the Privacy Policy to continue" }),
+  }),
 });
 type Values = z.infer<typeof schema>;
 
