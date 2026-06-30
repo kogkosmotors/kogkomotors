@@ -43,9 +43,6 @@ export function LeadForm({
   const {
     register,
     handleSubmit,
-  const {
-    register,
-    handleSubmit,
     control,
     formState: { errors, isSubmitting },
   } = useForm<Values>({ resolver: zodResolver(schema) });
