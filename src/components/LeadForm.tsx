@@ -113,6 +113,34 @@ export function LeadForm({
         <Textarea id={`${type}-message`} rows={4} {...register("message")} placeholder="How can we help?" />
       </div>
 
+      <div className="mt-5">
+        <div className="flex items-start gap-3">
+          <Controller
+            control={control}
+            name="consent"
+            render={({ field }) => (
+              <Checkbox
+                id={`${type}-consent`}
+                className="mt-0.5"
+                checked={field.value === true}
+                onCheckedChange={(v) => field.onChange(v === true)}
+                aria-label="Agree to the Privacy Policy"
+              />
+            )}
+          />
+          <Label htmlFor={`${type}-consent`} className="text-xs font-normal leading-relaxed text-muted-foreground">
+            I have read and agree to the{" "}
+            <Link to="/privacy" className="text-primary underline-offset-4 hover:underline">
+              Privacy Policy
+            </Link>{" "}
+            and consent to Kogko's Motors processing my details to respond to my enquiry.
+          </Label>
+        </div>
+        {errors.consent && (
+          <p className="mt-1.5 text-xs text-destructive">{errors.consent.message}</p>
+        )}
+      </div>
+
       <Button type="submit" variant="luxury" size="lg" className="mt-6 w-full" disabled={isSubmitting}>
         {isSubmitting ? "Sending…" : cta}
       </Button>
