@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 import { CheckCircle2 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useServerFn } from "@tanstack/react-start";
 import { submitLead } from "@/lib/leads.functions";
 
@@ -16,6 +18,9 @@ const schema = z.object({
   email: z.string().trim().email("Enter a valid email").max(255),
   phone: z.string().trim().min(5, "Enter a valid phone").max(40),
   message: z.string().trim().max(2000).optional(),
+  consent: z.literal(true, {
+    errorMap: () => ({ message: "Please agree to the Privacy Policy to continue" }),
+  }),
 });
 type Values = z.infer<typeof schema>;
 
@@ -38,6 +43,7 @@ export function LeadForm({
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<Values>({ resolver: zodResolver(schema) });
 
@@ -105,6 +111,34 @@ export function LeadForm({
       <div className="mt-4 space-y-1.5">
         <Label htmlFor={`${type}-message`}>{messageLabel}</Label>
         <Textarea id={`${type}-message`} rows={4} {...register("message")} placeholder="How can we help?" />
+      </div>
+
+      <div className="mt-5">
+        <div className="flex items-start gap-3">
+          <Controller
+            control={control}
+            name="consent"
+            render={({ field }) => (
+              <Checkbox
+                id={`${type}-consent`}
+                className="mt-0.5"
+                checked={field.value === true}
+                onCheckedChange={(v) => field.onChange(v === true)}
+                aria-label="Agree to the Privacy Policy"
+              />
+            )}
+          />
+          <Label htmlFor={`${type}-consent`} className="text-xs font-normal leading-relaxed text-muted-foreground">
+            I have read and agree to the{" "}
+            <Link to="/privacy" className="text-primary underline-offset-4 hover:underline">
+              Privacy Policy
+            </Link>{" "}
+            and consent to Kogko's Motors processing my details to respond to my enquiry.
+          </Label>
+        </div>
+        {errors.consent && (
+          <p className="mt-1.5 text-xs text-destructive">{errors.consent.message}</p>
+        )}
       </div>
 
       <Button type="submit" variant="luxury" size="lg" className="mt-6 w-full" disabled={isSubmitting}>

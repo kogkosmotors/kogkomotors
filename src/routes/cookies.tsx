@@ -28,7 +28,10 @@ export const Route = createFileRoute("/cookies")({
       </ul>
 
       <h2>Third Parties</h2>
-      <p>Some cookies may be set by third-party services we use for analytics or advertising. These providers set their own cookies only after you grant consent for the relevant category, and they may process data under their own privacy policies.</p>
+      <p>Some cookies may be set by third-party services we use. These providers set their own cookies only after you grant consent for the relevant category, and they process data under their own privacy policies:</p>
+      <ul>
+        <li><strong>Google Analytics</strong> (analytics) — helps us understand how visitors use the site so we can measure and improve performance. Sets cookies such as <code>_ga</code> and <code>_ga_*</code>; typical duration up to 24 months. Loads only after you accept analytics cookies. See Google's <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</li>
+      </ul>
 
       <h2>Your Consent &amp; How to Withdraw It</h2>
       <p>When you first visit, no non-essential cookies are loaded until you make a choice. You can accept all, reject non-essential cookies, or choose specific categories. You can change or withdraw your consent at any time using the button below or the “Cookie settings” link in the footer.</p>
