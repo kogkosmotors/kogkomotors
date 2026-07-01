@@ -21,6 +21,9 @@ export const siteConfig = {
   /** Inventory "Max Price" filter slider bounds — editable from the Settings tab. Set to 0 to auto-detect from inventory. */
   filterPriceMin: 0,
   filterPriceMax: 0,
+  /** Inventory "From Year" filter slider bounds — editable from the Settings tab. Set to 0 to auto-detect from inventory. */
+  filterYearMin: 0,
+  filterYearMax: 0,
   address: "Strovolos, Nicosia, Cyprus",
   mapQuery: "Strovolos, Nicosia, Cyprus",
   hours: [
