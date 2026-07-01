@@ -18,6 +18,9 @@ export const siteConfig = {
   logoHeaderHeight: 48,
   logoFooterHeight: 48,
   heroImage: "",
+  /** Inventory "Max Price" filter slider bounds — editable from the Settings tab. Set to 0 to auto-detect from inventory. */
+  filterPriceMin: 0,
+  filterPriceMax: 0,
   address: "Strovolos, Nicosia, Cyprus",
   mapQuery: "Strovolos, Nicosia, Cyprus",
   hours: [

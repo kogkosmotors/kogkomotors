@@ -31,22 +31,28 @@ const ALL = "all";
 type Sort = "newest" | "oldest" | "price-asc" | "price-desc" | "mileage";
 
 function Inventory() {
-  const { vehicles } = useSiteData();
+  const { vehicles, config } = useSiteData();
 
-  const { brands, bodyTypes, fuelTypes, transmissions, maxPrice, minYear, maxYear } = useMemo(() => {
+  const { brands, bodyTypes, fuelTypes, transmissions, minPrice, maxPrice, minYear, maxYear } = useMemo(() => {
     const uniq = (arr: string[]) => Array.from(new Set(arr.filter(Boolean))).sort();
-    const prices = vehicles.map((v) => v.price);
+    const prices = vehicles.map((v) => v.price).filter((p) => p > 0);
     const years = vehicles.map((v) => v.year);
+    const autoMin = prices.length ? Math.min(...prices) : 0;
+    const autoMax = prices.length ? Math.max(...prices) : 500000;
+    // Sheet overrides (Settings tab: filter_price_min / filter_price_max); 0 = auto-detect.
+    const sheetMin = config.filterPriceMin > 0 ? config.filterPriceMin : autoMin;
+    const sheetMax = config.filterPriceMax > 0 ? config.filterPriceMax : autoMax;
     return {
       brands: uniq(vehicles.map((v) => v.make)),
       bodyTypes: uniq(vehicles.map((v) => v.bodyType)),
       fuelTypes: uniq(vehicles.map((v) => v.fuel)),
       transmissions: uniq(vehicles.map((v) => v.transmission)),
-      maxPrice: prices.length ? Math.max(...prices) : 500000,
+      minPrice: Math.min(sheetMin, sheetMax),
+      maxPrice: Math.max(sheetMin, sheetMax, sheetMin + 1000),
       minYear: years.length ? Math.min(...years) : 2010,
       maxYear: years.length ? Math.max(...years) : new Date().getFullYear(),
     };
-  }, [vehicles]);
+  }, [vehicles, config.filterPriceMin, config.filterPriceMax]);
 
   const [q, setQ] = useState("");
   const [brand, setBrand] = useState(ALL);
@@ -137,7 +143,7 @@ function Inventory() {
       </div>
       <div className="space-y-2">
         <Label>Max Price: <span className="text-primary">{formatPrice(price)}</span></Label>
-        <Slider min={50000} max={maxPrice} step={1000} value={[price]} onValueChange={(v) => setPrice(v[0])} />
+        <Slider min={minPrice} max={maxPrice} step={1000} value={[Math.min(Math.max(price, minPrice), maxPrice)]} onValueChange={(v) => setPrice(v[0])} />
       </div>
       <div className="space-y-2">
         <Label>From Year: <span className="text-primary">{year}</span></Label>
