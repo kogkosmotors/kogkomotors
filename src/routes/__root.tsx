@@ -17,7 +17,10 @@ import { Toaster } from "@/components/ui/sonner";
 import { CookieConsent } from "@/components/CookieConsent";
 import { SiteDataProvider } from "@/hooks/use-site-data";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { assetUrl } from "@/lib/image-urls";
 import logoAsset from "@/assets/kogkos-logo.png.asset.json";
+import faviconAsset from "@/assets/favicon.ico.asset.json";
+
 
 function NotFoundComponent() {
   return (
