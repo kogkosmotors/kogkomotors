@@ -214,6 +214,8 @@ export function buildSiteData(raw?: RawSheetData | null): SiteData {
     heroImage: imageUrl(s("hero_image_url", siteConfig.heroImage)),
     filterPriceMin: n("filter_price_min", siteConfig.filterPriceMin),
     filterPriceMax: n("filter_price_max", siteConfig.filterPriceMax),
+    filterYearMin: n("filter_year_min", siteConfig.filterYearMin),
+    filterYearMax: n("filter_year_max", siteConfig.filterYearMax),
     address: s("address", siteConfig.address),
     mapQuery: s("map_query", siteConfig.mapQuery),
     hours: [

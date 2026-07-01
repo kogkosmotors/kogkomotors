@@ -42,6 +42,11 @@ function Inventory() {
     // Sheet overrides (Settings tab: filter_price_min / filter_price_max); 0 = auto-detect.
     const sheetMin = config.filterPriceMin > 0 ? config.filterPriceMin : autoMin;
     const sheetMax = config.filterPriceMax > 0 ? config.filterPriceMax : autoMax;
+    const autoYearMin = years.length ? Math.min(...years) : 2010;
+    const autoYearMax = years.length ? Math.max(...years) : new Date().getFullYear();
+    // Sheet overrides (Settings tab: filter_year_min / filter_year_max); 0 = auto-detect.
+    const sheetYearMin = config.filterYearMin > 0 ? config.filterYearMin : autoYearMin;
+    const sheetYearMax = config.filterYearMax > 0 ? config.filterYearMax : autoYearMax;
     return {
       brands: uniq(vehicles.map((v) => v.make)),
       bodyTypes: uniq(vehicles.map((v) => v.bodyType)),
@@ -49,10 +54,10 @@ function Inventory() {
       transmissions: uniq(vehicles.map((v) => v.transmission)),
       minPrice: Math.min(sheetMin, sheetMax),
       maxPrice: Math.max(sheetMin, sheetMax, sheetMin + 1000),
-      minYear: years.length ? Math.min(...years) : 2010,
-      maxYear: years.length ? Math.max(...years) : new Date().getFullYear(),
+      minYear: Math.min(sheetYearMin, sheetYearMax),
+      maxYear: Math.max(sheetYearMin, sheetYearMax, sheetYearMin + 1),
     };
-  }, [vehicles, config.filterPriceMin, config.filterPriceMax]);
+  }, [vehicles, config.filterPriceMin, config.filterPriceMax, config.filterYearMin, config.filterYearMax]);
 
   const [q, setQ] = useState("");
   const [brand, setBrand] = useState(ALL);
