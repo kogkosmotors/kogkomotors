@@ -126,6 +126,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "AutoDealer",
           name: "Kogko's Motors",
           description: "Cyprus's premier luxury vehicle dealership.",
+          url: "https://kogkomotors.lovable.app",
+          logo: assetUrl(logoAsset.url),
           telephone: "+35799592202",
           email: "sales@kogkosmotors.com",
           address: {
