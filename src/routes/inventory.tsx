@@ -143,7 +143,7 @@ function Inventory() {
       </div>
       <div className="space-y-2">
         <Label>Max Price: <span className="text-primary">{formatPrice(price)}</span></Label>
-        <Slider min={50000} max={maxPrice} step={1000} value={[price]} onValueChange={(v) => setPrice(v[0])} />
+        <Slider min={minPrice} max={maxPrice} step={1000} value={[Math.min(Math.max(price, minPrice), maxPrice)]} onValueChange={(v) => setPrice(v[0])} />
       </div>
       <div className="space-y-2">
         <Label>From Year: <span className="text-primary">{year}</span></Label>
