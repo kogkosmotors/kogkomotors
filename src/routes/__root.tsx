@@ -17,7 +17,10 @@ import { Toaster } from "@/components/ui/sonner";
 import { CookieConsent } from "@/components/CookieConsent";
 import { SiteDataProvider } from "@/hooks/use-site-data";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { assetUrl } from "@/lib/image-urls";
 import logoAsset from "@/assets/kogkos-logo.png.asset.json";
+import faviconAsset from "@/assets/favicon.ico.asset.json";
+
 
 function NotFoundComponent() {
   return (
@@ -104,8 +107,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", type: "image/png", href: logoAsset.url },
-      { rel: "shortcut icon", type: "image/png", href: logoAsset.url },
+      { rel: "icon", type: "image/x-icon", href: faviconAsset.url },
+      { rel: "shortcut icon", type: "image/x-icon", href: faviconAsset.url },
       { rel: "apple-touch-icon", href: logoAsset.url },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -123,6 +126,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "AutoDealer",
           name: "Kogko's Motors",
           description: "Cyprus's premier luxury vehicle dealership.",
+          url: "https://kogkomotors.lovable.app",
+          logo: assetUrl(logoAsset.url),
           telephone: "+35799592202",
           email: "sales@kogkosmotors.com",
           address: {
